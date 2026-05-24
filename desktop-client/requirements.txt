@@ -1,0 +1,2 @@
+# PyStudio Desktop usa solo librerías estándar de Python.
+# Para generar el .exe se instala PyInstaller con build_windows.bat.
