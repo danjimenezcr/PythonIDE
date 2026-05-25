@@ -11,11 +11,12 @@ document.getElementById('signup-form').addEventListener('submit', async function
     const confirmPassword = document.getElementById('confirm-password').value;
     const errorMsg        = document.getElementById('error-msg');
     const btn             = document.getElementById('submit-btn');
+    const passwordCaption = document.getElementById('password-caption');
 
     // Client-side validation: passwords must match before hitting the API
     if (password !== confirmPassword) {
-        errorMsg.textContent   = 'Las contraseñas no coinciden.';
-        errorMsg.style.display = 'block';
+        passwordCaption.textContent   = 'Las contraseñas no coinciden.';
+        //passwordCaption.style.display = 'block';
         return;
     }
 
