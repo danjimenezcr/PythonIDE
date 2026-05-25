@@ -33,6 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
     exit;
 }
+require_once __DIR__ . '/vendor/autoload.php'; // Load the Composer autoloader for dependencies (like Dotenv)
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 require_once __DIR__ . '/Controllers/AuthController.php';
 require_once __DIR__ . '/Controllers/CourseController.php';
