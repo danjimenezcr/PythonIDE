@@ -48,10 +48,10 @@ $result = [
 
 try {
     // Attempt DB connection using the same config as the rest of the app
-    $host     = getenv('DB_HOST')     ?: 'localhost';
-    $dbname   = getenv('DB_NAME')     ?: 'pystudio';
-    $user     = getenv('DB_USER')     ?: 'root';
-    $password = getenv('DB_PASSWORD') ?: '';
+    $host     = $_ENV['DB_HOST']     ?? 'localhost';
+    $dbname   = $_ENV['DB_NAME']     ?? 'pystudio';
+    $user     = $_ENV['DB_USER']     ?? 'pystudio';
+    $password = $_ENV['DB_PASSWORD'] ?? '';
 
     $pdo = new PDO(
         "mysql:host={$host};dbname={$dbname};charset=utf8mb4",
