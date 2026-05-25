@@ -32,25 +32,30 @@
         </table>
     </div>
     <div class = "right-panel">
-        <h1 class = "title" style = "margin-top: 15vh;"> Bienvenido devuelta </h1>
+        <h1 class="title welcome-title"> Bienvenido devuelta </h1>
         <p class = "light-text" >Ingresa con tu contraseña y correo.</p>
         
-        <form class = "form">
-            <div class="input-component" style="margin-top: 10vh;">
+        <form class="form" id="login-form">
+            <div class="input-component form-first-field">
                 <p>Correo</p>
-                <input class = "input singleblock" type="text" placeholder="steve.jobs@apple.com" required>
+                <input class="input singleblock" id="email" type="email" placeholder="steve.jobs@apple.com" required>
             </div>
-            <div class="input-component" style = "margin-top: 2vh">
+            <div class="input-component">
                 <p>Contraseña</p>
-                <input class = "input singleblock" type="password" placeholder="*************" required>
-                <p> <a class = "link" href="/forgot-password.html">Olvidaste tu contraseña?</a></a></p>
+                <input class="input singleblock" id="password" type="password" placeholder="*************" required>
+                <p><a class="disable" href="/forgot-password.html">Olvidaste tu contraseña?</a></p>
             </div>
 
-            <button class="button" type="submit">Iniciar sesión</button>
-            <p> Aun no tienes una cuenta? <a class = "link" href="/sign-up.html">Registrate aqui</a></p>
-            
+            <!-- Inline error message from the backend -->
+            <p id="error-msg" class="error-msg" style="display: none;"></p>
+
+            <button class="button" type="submit" id="submit-btn">Iniciar sesión</button>
+            <p>Aun no tienes una cuenta? <a class="link" href="/sign-up.html">Registrate aqui</a></p>
         </form>
 
     </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>
