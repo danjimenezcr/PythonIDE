@@ -246,14 +246,13 @@ p.light-text {
     text-align: center;
 }
 
-.right-panel .disable {
-    width: 70%;
-    word-wrap: break-word;
+a.disable {
     white-space: normal;
-    text-align: center;
     color: #929292;
     pointer-events: none;
     opacity: 0.5;
+    text-decoration: none;
+    font-weight: 300;
 }
 
 /* Replaces inline style="margin-top:15vh" on the login welcome title */
@@ -262,7 +261,8 @@ p.light-text {
 }
 
 /* Replaces inline style="margin-top:10vh" on the first input in the login form */
-.form-first-field {
+/* Note: no space between .input-component and .form-first-field — both classes are on the same element */
+.right-panel .input-component.form-first-field {
     margin-top: 10vh;
 }
 
