@@ -144,10 +144,10 @@ CREATE TABLE IF NOT EXISTS submission (
         ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_submission_student
         FOREIGN KEY (student_id) REFERENCES user (id)
-        ON UPDATE CASCADE ON DELETE SET NULL,
+        ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT fk_submission_group
         FOREIGN KEY (group_id) REFERENCES student_group (id)
-        ON UPDATE CASCADE ON DELETE SET NULL,
+        ON UPDATE CASCADE ON DELETE RESTRICT,
     -- Garantiza que no existan dos entregas individuales del mismo estudiante
     -- para la misma actividad
     CONSTRAINT chk_submission_owner

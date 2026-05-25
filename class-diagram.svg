@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1080 1286.59">
+  <!-- Generator: Adobe Illustrator 29.6.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 207)  -->
+  <defs>
+    <style>
+      .st0, .st1, .st2, .st3, .st4 {
+        fill: none;
+      }
+
+      .st5 {
+        fill: #d4f4fc;
+      }
+
+      .st5, .st6, .st7, .st1, .st2, .st8, .st9, .st10, .st3, .st11, .st12, .st13, .st4 {
+        stroke: #000;
+      }
+
+      .st5, .st6, .st7, .st9, .st11 {
+        stroke-width: 1.5px;
+      }
+
+      .st14, .st15, .st16, .st17, .st18 {
+        isolation: isolate;
+      }
+
+      .st14, .st19 {
+        font-family: CourierNewPSMT, 'Courier New';
+      }
+
+      .st14, .st19, .st17 {
+        font-size: 11px;
+      }
+
+      .st6 {
+        fill: #d9fce7;
+      }
+
+      .st15 {
+        font-family: ArialMT, Arial;
+        font-size: 10px;
+      }
+
+      .st7 {
+        fill: #fffdde;
+      }
+
+      .st1 {
+        stroke-width: 1.3px;
+      }
+
+      .st2, .st3 {
+        stroke-width: .8px;
+      }
+
+      .st8, .st20, .st10, .st11, .st12, .st13 {
+        fill: #fff;
+      }
+
+      .st19 {
+        text-decoration: underline;
+      }
+
+      .st16 {
+        font-family: CourierNewPS-BoldMT, 'Courier New';
+        font-size: 12px;
+      }
+
+      .st16, .st18 {
+        font-weight: 700;
+      }
+
+      .st9 {
+        fill: #ffe6e6;
+      }
+
+      .st10 {
+        stroke-width: 2px;
+      }
+
+      .st3 {
+        stroke-dasharray: 5 4;
+      }
+
+      .st17 {
+        font-family: CourierNewPS-ItalicMT, 'Courier New';
+        font-style: italic;
+      }
+
+      .st18 {
+        font-family: Arial-BoldMT, Arial;
+        font-size: 13px;
+      }
+
+      .st12 {
+        stroke-width: 1.55px;
+      }
+
+      .st13 {
+        stroke-width: 1.69px;
+      }
+    </style>
+  </defs>
+  <rect class="st20" x="3.9" y="2.98" width="1080" height="1283.61"/>
+  <rect class="st10" x="18.34" y="344.53" width="1043.32" height="534.94"/>
+  <rect class="st12" x="18.34" y="10.6" width="1043.32" height="320.97"/>
+  <rect class="st13" x="18.34" y="892.43" width="1043.32" height="380.44"/>
+  <g>
+    <rect class="st5" x="40" y="55" width="305" height="152"/>
+    <line class="st4" x1="40" y1="85" x2="345" y2="85"/>
+    <line class="st4" x1="40" y1="129" x2="345" y2="129"/>
+    <text class="st16" transform="translate(127.69 76)"><tspan x="0" y="0">DatabaseConnection</tspan></text>
+    <text class="st19" transform="translate(48 99)"><tspan x="0" y="0">- instance: DatabaseConnection</tspan></text>
+    <text class="st14" transform="translate(48 116)"><tspan x="0" y="0">- connection: Connection</tspan></text>
+    <text class="st14" transform="translate(48 143)"><tspan x="0" y="0">- DatabaseConnection()</tspan></text>
+    <text class="st19" transform="translate(48 160)"><tspan x="0" y="0">+ getInstance(): DatabaseConnection</tspan></text>
+    <text class="st14" transform="translate(48 177)"><tspan x="0" y="0">+ query(sql: String): Result</tspan></text>
+    <text class="st14" transform="translate(48 194)"><tspan x="0" y="0">+ close(): void</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="430" y="55" width="265" height="118"/>
+    <line class="st4" x1="430" y1="85" x2="695" y2="85"/>
+    <line class="st4" x1="430" y1="112" x2="695" y2="112"/>
+    <text class="st16" transform="translate(512.09 76)"><tspan x="0" y="0">UserRepository</tspan></text>
+    <text class="st14" transform="translate(438 99)"><tspan x="0" y="0">- db: DatabaseConnection</tspan></text>
+    <text class="st14" transform="translate(438 126)"><tspan x="0" y="0">+ findById(id: int): User</tspan></text>
+    <text class="st14" transform="translate(438 143)"><tspan x="0" y="0">+ save(user: User): void</tspan></text>
+    <text class="st14" transform="translate(438 160)"><tspan x="0" y="0">+ delete(id: int): void</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="430" y="205" width="290" height="118"/>
+    <line class="st4" x1="430" y1="235" x2="720" y2="235"/>
+    <line class="st4" x1="430" y1="262" x2="720" y2="262"/>
+    <text class="st16" transform="translate(502.99 226)"><tspan x="0" y="0">SubmissionRepository</tspan></text>
+    <text class="st14" transform="translate(438 249)"><tspan x="0" y="0">- db: DatabaseConnection</tspan></text>
+    <text class="st14" transform="translate(438 276)"><tspan x="0" y="0">+ findById(id: int): ISubmission</tspan></text>
+    <text class="st14" transform="translate(438 293)"><tspan x="0" y="0">+ save(sub: ISubmission): void</tspan></text>
+    <text class="st14" transform="translate(438 310)"><tspan x="0" y="0">+ findAll(): List&lt;ISubmission&gt;</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="40" y="390" width="272" height="109"/>
+    <line class="st4" x1="40" y1="438" x2="312" y2="438"/>
+    <text class="st17" transform="translate(139.69 408)"><tspan x="0" y="0">«interface»</tspan></text>
+    <text class="st16" transform="translate(139.99 427)"><tspan x="0" y="0">IExecution</tspan></text>
+    <text class="st14" transform="translate(48 452)"><tspan x="0" y="0">+ execute(code: String): Result</tspan></text>
+    <text class="st14" transform="translate(48 469)"><tspan x="0" y="0">+ validate(): boolean</tspan></text>
+    <text class="st14" transform="translate(48 486)"><tspan x="0" y="0">+ getStatus(): String</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="385" y="390" width="272" height="91"/>
+    <line class="st4" x1="385" y1="420" x2="657" y2="420"/>
+    <text class="st16" transform="translate(452.59 411)"><tspan x="0" y="0">ExecutionController</tspan></text>
+    <text class="st14" transform="translate(393 434)"><tspan x="0" y="0">+ execute(code: String): Result</tspan></text>
+    <text class="st14" transform="translate(393 451)"><tspan x="0" y="0">+ validate(): boolean</tspan></text>
+    <text class="st14" transform="translate(393 468)"><tspan x="0" y="0">+ getStatus(): String</tspan></text>
+  </g>
+  <g>
+    <rect class="st9" x="730" y="390" width="325" height="169"/>
+    <line class="st4" x1="730" y1="420" x2="1055" y2="420"/>
+    <line class="st4" x1="730" y1="464" x2="1055" y2="464"/>
+    <text class="st16" transform="translate(842.09 411)"><tspan x="0" y="0">ExecutionProxy</tspan></text>
+    <text class="st14" transform="translate(738 434)"><tspan x="0" y="0">- realController: ExecutionController</tspan></text>
+    <text class="st14" transform="translate(738 451)"><tspan x="0" y="0">- userPermissions: List&lt;String&gt;</tspan></text>
+    <text class="st14" transform="translate(738 478)"><tspan x="0" y="0">+ execute(code: String): Result</tspan></text>
+    <text class="st14" transform="translate(738 495)"><tspan x="0" y="0">+ validate(): boolean</tspan></text>
+    <text class="st14" transform="translate(738 512)"><tspan x="0" y="0">+ getStatus(): String</tspan></text>
+    <text class="st14" transform="translate(738 529)"><tspan x="0" y="0">+ checkPermission(): boolean</tspan></text>
+    <text class="st14" transform="translate(738 546)"><tspan x="0" y="0">+ logRequest(): void</tspan></text>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polygon class="st8" points="168 378 162 390 156 378 168 378"/>
+    <path class="st8" d="M162,390" marker-end="url(#mReal)"/>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polygon class="st8" points="192 378 186 390 180 378 192 378"/>
+    <path class="st8" d="M186,390" marker-end="url(#mReal)"/>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polygon points="668 447 657 442 668 437 668 447"/>
+    <path d="M657,442" marker-end="url(#mAssoc)"/>
+    <text class="st15" transform="translate(664 437)"><tspan x="0" y="0">«delegates»</tspan></text>
+  </g>
+  <text class="st18" transform="translate(30 30.98)"><tspan x="0" y="0">Layer: Model</tspan></text>
+  <g>
+    <rect class="st11" x="40" y="624" width="242" height="109"/>
+    <line class="st4" x1="40" y1="672" x2="282" y2="672"/>
+    <text class="st17" transform="translate(124.69 642)"><tspan x="0" y="0">«interface»</tspan></text>
+    <text class="st16" transform="translate(121.39 661)"><tspan x="0" y="0">ISubmission</tspan></text>
+    <text class="st14" transform="translate(48 686)"><tspan x="0" y="0">+ getScore(): int</tspan></text>
+    <text class="st14" transform="translate(48 703)"><tspan x="0" y="0">+ isNull(): boolean</tspan></text>
+    <text class="st14" transform="translate(48 720)"><tspan x="0" y="0">+ getStatus(): String</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="365" y="624" width="268" height="152"/>
+    <line class="st4" x1="365" y1="654" x2="633" y2="654"/>
+    <line class="st4" x1="365" y1="715" x2="633" y2="715"/>
+    <text class="st16" transform="translate(462.99 645)"><tspan x="0" y="0">Submission</tspan></text>
+    <text class="st14" transform="translate(373 668)"><tspan x="0" y="0">- score: int</tspan></text>
+    <text class="st14" transform="translate(373 685)"><tspan x="0" y="0">- studentId: int</tspan></text>
+    <text class="st14" transform="translate(373 702)"><tspan x="0" y="0">- submittedAt: Date</tspan></text>
+    <text class="st14" transform="translate(373 729)"><tspan x="0" y="0">+ getScore(): int</tspan></text>
+    <text class="st14" transform="translate(373 746)"><tspan x="0" y="0">+ isNull(): boolean</tspan></text>
+    <text class="st14" transform="translate(373 763)"><tspan x="0" y="0">+ getStatus(): String</tspan></text>
+  </g>
+  <g>
+    <rect class="st6" x="710" y="624" width="305" height="91"/>
+    <line class="st4" x1="710" y1="654" x2="1015" y2="654"/>
+    <text class="st16" transform="translate(812.09 645)"><tspan x="0" y="0">NullSubmission</tspan></text>
+    <text class="st14" transform="translate(718 668)"><tspan x="0" y="0">+ getScore(): int {return 0}</tspan></text>
+    <text class="st14" transform="translate(718 685)"><tspan x="0" y="0">+ isNull(): boolean {return true}</tspan></text>
+    <text class="st14" transform="translate(718 702)"><tspan x="0" y="0">+ getStatus(): String {&quot;none&quot;}</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="40" y="800" width="295" height="74"/>
+    <line class="st4" x1="40" y1="830" x2="335" y2="830"/>
+    <text class="st16" transform="translate(115.49 821)"><tspan x="0" y="0">SubmissionController</tspan></text>
+    <text class="st14" transform="translate(48 844)"><tspan x="0" y="0">+ getSubmission(id: int): ISubmission</tspan></text>
+    <text class="st14" transform="translate(48 861)"><tspan x="0" y="0">+ createSubmission(): Submission</tspan></text>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polygon class="st8" points="167 612 161 624 155 612 167 612"/>
+    <path class="st8" d="M161,624" marker-end="url(#mReal)"/>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polygon class="st8" points="189 612 183 624 177 612 189 612"/>
+    <path class="st8" d="M183,624" marker-end="url(#mReal)"/>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polyline class="st1" points="182 743 187 733 192 743"/>
+    <path class="st1" d="M187,733" marker-end="url(#mDep)"/>
+    <text class="st15" transform="translate(192 770)"><tspan x="0" y="0">returns</tspan></text>
+  </g>
+  <g>
+    <rect class="st7" x="40" y="939" width="242" height="75"/>
+    <line class="st4" x1="40" y1="987" x2="282" y2="987"/>
+    <text class="st17" transform="translate(124.69 957)"><tspan x="0" y="0">«interface»</tspan></text>
+    <text class="st16" transform="translate(128.59 976)"><tspan x="0" y="0">IObserver</tspan></text>
+    <text class="st14" transform="translate(48 1001)"><tspan x="0" y="0">+ update(data: Object): void</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="362" y="939" width="272" height="109"/>
+    <line class="st4" x1="362" y1="987" x2="634" y2="987"/>
+    <text class="st17" transform="translate(461.69 957)"><tspan x="0" y="0">«interface»</tspan></text>
+    <text class="st16" transform="translate(469.2 976)"><tspan x="0" y="0">ISubject</tspan></text>
+    <text class="st14" transform="translate(370 1001)"><tspan x="0" y="0">+ attach(obs: IObserver): void</tspan></text>
+    <text class="st14" transform="translate(370 1018)"><tspan x="0" y="0">+ detach(obs: IObserver): void</tspan></text>
+    <text class="st14" transform="translate(370 1035)"><tspan x="0" y="0">+ notify(): void</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="726.94" y="939" width="315" height="135"/>
+    <line class="st4" x1="726.94" y1="969" x2="1041.94" y2="969"/>
+    <line class="st4" x1="726.94" y1="996" x2="1041.94" y2="996"/>
+    <text class="st16" transform="translate(812.43 960)"><tspan x="0" y="0">SubmissionController</tspan></text>
+    <text class="st14" transform="translate(734.94 983)"><tspan x="0" y="0">- observers: List&lt;IObserver&gt;</tspan></text>
+    <text class="st14" transform="translate(734.94 1010)"><tspan x="0" y="0">+ attach(obs: IObserver): void</tspan></text>
+    <text class="st14" transform="translate(734.94 1027)"><tspan x="0" y="0">+ detach(obs: IObserver): void</tspan></text>
+    <text class="st14" transform="translate(734.94 1044)"><tspan x="0" y="0">+ notify(): void</tspan></text>
+    <text class="st14" transform="translate(734.94 1061)"><tspan x="0" y="0">+ getSubmission(id: int): ISubmission</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="40" y="1110" width="250" height="101"/>
+    <line class="st4" x1="40" y1="1140" x2="290" y2="1140"/>
+    <line class="st4" x1="40" y1="1167" x2="290" y2="1167"/>
+    <text class="st16" transform="translate(114.59 1131)"><tspan x="0" y="0">SubmissionView</tspan></text>
+    <text class="st14" transform="translate(48 1154)"><tspan x="0" y="0">- subject: ISubject</tspan></text>
+    <text class="st14" transform="translate(48 1181)"><tspan x="0" y="0">+ update(data: Object): void</tspan></text>
+    <text class="st14" transform="translate(48 1198)"><tspan x="0" y="0">+ render(): void</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="302.7" y="1110" width="268" height="101"/>
+    <line class="st4" x1="302.7" y1="1140" x2="570.7" y2="1140"/>
+    <line class="st4" x1="302.7" y1="1167" x2="570.7" y2="1167"/>
+    <text class="st16" transform="translate(371.89 1131)"><tspan x="0" y="0">SignatureAlertView</tspan></text>
+    <text class="st14" transform="translate(310.7 1154)"><tspan x="0" y="0">- subject: ISubject</tspan></text>
+    <text class="st14" transform="translate(310.7 1181)"><tspan x="0" y="0">+ update(data: Object): void</tspan></text>
+    <text class="st14" transform="translate(310.7 1198)"><tspan x="0" y="0">+ showAlert(): void</tspan></text>
+  </g>
+  <g>
+    <rect class="st11" x="652.42" y="1108.85" width="295" height="135"/>
+    <line class="st4" x1="652.42" y1="1138.85" x2="947.42" y2="1138.85"/>
+    <line class="st4" x1="652.42" y1="1165.85" x2="947.42" y2="1165.85"/>
+    <text class="st16" transform="translate(731.51 1129.85)"><tspan x="0" y="0">SignatureController</tspan></text>
+    <text class="st14" transform="translate(660.42 1152.85)"><tspan x="0" y="0">- observers: List&lt;IObserver&gt;</tspan></text>
+    <text class="st14" transform="translate(660.42 1179.85)"><tspan x="0" y="0">+ attach(obs: IObserver): void</tspan></text>
+    <text class="st14" transform="translate(660.42 1196.85)"><tspan x="0" y="0">+ detach(obs: IObserver): void</tspan></text>
+    <text class="st14" transform="translate(660.42 1213.85)"><tspan x="0" y="0">+ notify(): void</tspan></text>
+    <text class="st14" transform="translate(660.42 1230.85)"><tspan x="0" y="0">+ validateSignature(): boolean</tspan></text>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polygon points="293 1003 282 998 293 993 293 1003"/>
+    <path d="M282,998" marker-end="url(#mAssoc)"/>
+    <text class="st15" transform="translate(285 993)"><tspan x="0" y="0">observers *</tspan></text>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polygon class="st8" points="646 999 634 993 646 987 646 999"/>
+    <path class="st8" d="M634,993" marker-end="url(#mReal)"/>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polygon class="st8" points="504 927 498 939 492 927 504 927"/>
+    <path class="st8" d="M498,939" marker-end="url(#mReal)"/>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polygon class="st8" points="159 1026 165 1014 171 1026 159 1026"/>
+    <path class="st8" d="M165,1014" marker-end="url(#mReal)"/>
+  </g>
+  <g>
+    <path class="st0" d=""/>
+    <polygon class="st8" points="294 981 282 975 294 969 294 981"/>
+    <path class="st8" d="M282,975" marker-end="url(#mReal)"/>
+  </g>
+  <path class="st0" d=""/>
+  <path class="st8" d="M90,1306" marker-end="url(#mReal)"/>
+  <path class="st0" d=""/>
+  <path class="st1" d="M378,1306" marker-end="url(#mDep)"/>
+  <path class="st0" d=""/>
+  <path d="M618,1306" marker-end="url(#mAssoc)"/>
+  <text class="st18" transform="translate(31 911.19)"><tspan x="0" y="0">Layer: View</tspan></text>
+  <text class="st18" transform="translate(30 360.79)"><tspan x="0" y="0">Controller</tspan></text>
+  <g>
+    <path class="st0" d=""/>
+    <polyline class="st1" points="355 118 345 113 355 108"/>
+    <path class="st1" d="M345,113" marker-end="url(#mDep)"/>
+    <text class="st15" transform="translate(352 109)"><tspan x="0" y="0">«use»</tspan></text>
+  </g>
+  <g>
+    <text class="st15" transform="translate(350 126)"><tspan x="0" y="0">«use»</tspan></text>
+    <path class="st0" d=""/>
+    <path class="st1" d="M345,131" marker-end="url(#mDep)"/>
+    <polyline class="st1" points="355 136 345 131 355 126"/>
+  </g>
+  <line class="st3" x1="356.14" y1="112.84" x2="421.32" y2="112.52"/>
+  <line class="st3" x1="356.23" y1="131.15" x2="378.55" y2="131.65"/>
+  <line class="st3" x1="382.41" y1="226.47" x2="382.41" y2="131.4"/>
+  <line class="st3" x1="384.1" y1="229.46" x2="422.44" y2="230.31"/>
+  <line class="st3" x1="162" y1="375.82" x2="162.02" y2="362.73"/>
+  <line class="st3" x1="510.39" y1="389.46" x2="510.42" y2="362.73"/>
+  <line class="st3" x1="900.54" y1="390" x2="900.54" y2="355.8"/>
+  <line class="st3" x1="168.04" y1="363.7" x2="510.63" y2="363.7"/>
+  <line class="st3" x1="184.85" y1="351.3" x2="898.81" y2="357.7"/>
+  <line class="st3" x1="184.84" y1="376.1" x2="184.84" y2="351.32"/>
+  <line class="st3" x1="184.59" y1="582.69" x2="856.75" y2="584.67"/>
+  <line class="st3" x1="165.13" y1="594.99" x2="481.34" y2="595"/>
+  <line class="st3" x1="182.98" y1="612" x2="183.02" y2="582.68"/>
+  <line class="st3" x1="160.98" y1="612" x2="161" y2="597.34"/>
+  <line class="st3" x1="482.43" y1="626.66" x2="482.47" y2="597.34"/>
+  <line class="st3" x1="856.75" y1="624.31" x2="856.76" y2="584.67"/>
+  <line class="st3" x1="186.21" y1="798.62" x2="187.03" y2="735.75"/>
+  <line class="st3" x1="164.27" y1="1110" x2="165.41" y2="1022.6"/>
+  <line class="st3" x1="497.15" y1="925.26" x2="497.41" y2="904.45"/>
+  <line class="st3" x1="499.02" y1="901.91" x2="686.47" y2="901.97"/>
+  <line class="st3" x1="686.47" y1="1108.01" x2="687.15" y2="906.02"/>
+  <line class="st3" x1="646.01" y1="992.94" x2="727.1" y2="992.95"/>
+  <line class="st2" x1="290" y1="997.96" x2="358.8" y2="997.94"/>
+  <line class="st3" x1="294" y1="974.96" x2="340.98" y2="974.96"/>
+  <line class="st3" x1="340.87" y1="1110" x2="341.32" y2="976"/>
+  <line class="st2" x1="670.2" y1="442.01" x2="739" y2="441.99"/>
+</svg>
