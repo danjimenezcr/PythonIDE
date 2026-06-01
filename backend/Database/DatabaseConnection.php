@@ -11,10 +11,10 @@ class DatabaseConnection
 
     private function __construct()
     {
-        $host     = getenv('DB_HOST')     ?: 'localhost';
-        $dbname   = getenv('DB_NAME')     ?: 'pystudio';
-        $user     = getenv('DB_USER')     ?: 'root';
-        $password = getenv('DB_PASSWORD') ?: '';
+        $host     = $_ENV['DB_HOST']     ?? 'localhost';
+        $dbname   = $_ENV['DB_NAME']     ?? 'pystudio';
+        $user     = $_ENV['DB_USER']     ?? 'pystudio';
+        $password = $_ENV['DB_PASSWORD'] ?? '';
         $charset  = 'utf8mb4';
 
         $dsn = "mysql:host={$host};dbname={$dbname};charset={$charset}";
