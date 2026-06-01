@@ -23,6 +23,8 @@ document.getElementById('signup-form').addEventListener('submit', async function
     errorMsg.style.display = 'none';
     btn.disabled           = true;
     btn.textContent        = 'Registrando...';
+    
+    console.log('Enviando datos de registro:', { firstName, lastName, email });
 
     try {
         const res = await fetch(`${API}/auth/register`, {

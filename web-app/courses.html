@@ -37,7 +37,10 @@
                 <input class="input" id="course-description" type="text" placeholder="Descripción opcional">
             </div>
             <p id="create-error" class="error-msg" style="display: none;"></p>
-            <button class="btn-primary" id="create-course-submit">Crear Curso</button>
+            <div class="form-actions">
+                <button class="btn-outline" id="cancel-course-btn">Cancelar</button>
+                <button class="btn-primary" id="create-course-submit">Crear Curso</button>
+            </div>
         </div>
 
         <!-- Course cards grid -->
@@ -45,7 +48,32 @@
 
         <!-- Activities section — shown when a course card is clicked -->
         <div id="activities-section" class="activities-section" style="display: none;">
-            <h2 id="activities-title" class="section-title"></h2>
+            <div class="activities-header">
+                <h2 id="activities-title" class="section-title"></h2>
+                <button class="btn-primary" id="add-assignment-btn">+ Nueva Tarea</button>
+            </div>
+
+            <!-- Add assignment form (hidden by default, toggled by add-assignment-btn) -->
+            <div id="add-assignment-form" class="add-assignment-form" style="display: none;">
+                <div class="input-component">
+                    <p>Título</p>
+                    <input class="input" id="assignment-title" type="text" placeholder="Ej. Tarea 1">
+                </div>
+                <div class="input-component">
+                    <p>Descripción</p>
+                    <input class="input" id="assignment-description" type="text" placeholder="Descripción opcional">
+                </div>
+                <div class="input-component">
+                    <p>Fecha límite</p>
+                    <input class="input" id="assignment-deadline" type="datetime-local">
+                </div>
+                <p id="assignment-error" class="error-msg" style="display: none;"></p>
+                <div class="form-actions">
+                    <button class="btn-outline" id="cancel-assignment-btn">Cancelar</button>
+                    <button class="btn-primary" id="submit-assignment-btn">Crear Tarea</button>
+                </div>
+            </div>
+
             <div id="activities-list" class="activities-list"></div>
         </div>
 
