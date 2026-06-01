@@ -1,2 +1,13 @@
-#General
+# General
 .env.*
+
+# Python / Desktop
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+dist/
+build/
+*.spec
