@@ -26,4 +26,7 @@ abstract class BaseModel
 
     // Cada modelo devuelve su estado como array asociativo.
     abstract public function toArray(): array;
+
+    //Adding comment to test commit
+
 }
