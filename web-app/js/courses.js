@@ -3,6 +3,9 @@
 const token = localStorage.getItem('token');
 const user  = JSON.parse(localStorage.getItem('user') || 'null');
 
+// Tracks the currently selected course so the add-assignment form knows which course to post to
+let selectedCourseId = null;
+
 // Redirect to login if no session exists
 if (!token || !user) {
     window.location.href = '/index.html';
@@ -39,8 +42,11 @@ async function loadCourses() {
                 <p>${course.description || 'Sin descripción'}</p>
                 <span class="access-code">Código: ${course.access_code}</span>
             `;
-            // Clicking a card loads its activities
-            card.addEventListener('click', () => loadActivities(course.id, course.name));
+            // Clicking a card loads its activities and tracks the selected course
+            card.addEventListener('click', () => {
+                selectedCourseId = course.id;
+                loadActivities(course.id, course.name);
+            });
             list.appendChild(card);
         });
 
@@ -66,6 +72,9 @@ async function loadActivities(courseId, courseName) {
         title.textContent     = `Actividades — ${courseName}`;
         list.innerHTML        = '';
         section.style.display = 'block';
+
+        // Hide the add-assignment form whenever switching courses
+        document.getElementById('add-assignment-form').style.display = 'none';
 
         // Scroll to activities section smoothly
         section.scrollIntoView({ behavior: 'smooth' });
@@ -148,6 +157,85 @@ document.getElementById('create-course-submit').addEventListener('click', async 
         errorMsg.style.display = 'block';
         btn.disabled           = false;
         btn.textContent        = 'Crear Curso';
+    }
+});
+
+// ─── Cancel create course ────────────────────────────────────────────────────
+
+document.getElementById('cancel-course-btn').addEventListener('click', function () {
+    document.getElementById('create-course-form').style.display = 'none';
+});
+
+// ─── Add assignment ──────────────────────────────────────────────────────────
+
+document.getElementById('add-assignment-btn').addEventListener('click', function () {
+    const form = document.getElementById('add-assignment-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+});
+
+document.getElementById('cancel-assignment-btn').addEventListener('click', function () {
+    document.getElementById('add-assignment-form').style.display = 'none';
+});
+
+document.getElementById('submit-assignment-btn').addEventListener('click', async function () {
+    const title       = document.getElementById('assignment-title').value.trim();
+    const description = document.getElementById('assignment-description').value.trim();
+    const deadline    = document.getElementById('assignment-deadline').value;
+    const errorMsg    = document.getElementById('assignment-error');
+    const btn         = document.getElementById('submit-assignment-btn');
+
+    if (!title) {
+        errorMsg.textContent   = 'El título de la tarea es obligatorio.';
+        errorMsg.style.display = 'block';
+        return;
+    }
+
+    if (!deadline) {
+        errorMsg.textContent   = 'La fecha límite es obligatoria.';
+        errorMsg.style.display = 'block';
+        return;
+    }
+
+    errorMsg.style.display = 'none';
+    btn.disabled            = true;
+    btn.textContent         = 'Creando...';
+
+    try {
+        const res  = await fetch(`${API}/courses/${selectedCourseId}/activities`, {
+            method:  'POST',
+            headers: {
+                'Content-Type':  'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ title, description, deadline }),
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+            errorMsg.textContent   = data.message || 'Error al crear la tarea.';
+            errorMsg.style.display = 'block';
+            btn.disabled           = false;
+            btn.textContent        = 'Crear Tarea';
+            return;
+        }
+
+        // Reset form, hide it, and reload activities
+        document.getElementById('assignment-title').value       = '';
+        document.getElementById('assignment-description').value = '';
+        document.getElementById('assignment-deadline').value    = '';
+        document.getElementById('add-assignment-form').style.display = 'none';
+        btn.disabled    = false;
+        btn.textContent = 'Crear Tarea';
+
+        // Reload the activities list for the current course
+        const courseName = document.getElementById('activities-title').textContent.replace('Actividades — ', '');
+        loadActivities(selectedCourseId, courseName);
+
+    } catch (err) {
+        errorMsg.textContent   = 'Error de conexión. Intenta de nuevo.';
+        errorMsg.style.display = 'block';
+        btn.disabled           = false;
+        btn.textContent        = 'Crear Tarea';
     }
 });
 

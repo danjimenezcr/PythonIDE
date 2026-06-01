@@ -59,6 +59,11 @@ if ($uri === '/api/auth/register' && $method === 'POST') {
 } elseif ($uri === '/api/auth/logout' && $method === 'POST') {
     (new AuthController())->logout();
 
+//HEALTH CHECK 
+} elseif ($uri === '/api/health' && $method === 'GET') {
+    require __DIR__ . '/Controllers/Health.php';
+    (new Health())->check();
+
 // COURSES
 } elseif ($uri === '/api/courses' && $method === 'POST') {
     (new CourseController())->createCourse();
