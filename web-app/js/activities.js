@@ -14,7 +14,7 @@ async function loadAllActivities() {
         const coursesData = await coursesRes.json();
 
         if (!coursesData.success || coursesData.data.length === 0) {
-            container.innerHTML = '<p class="empty-state">No courses found.</p>';
+            container.innerHTML = '<p class="empty-state">No cursos disponibles.</p>';
             return;
         }
 
@@ -49,10 +49,10 @@ async function loadAllActivities() {
         }
 
         if (container.children.length === 0) {
-            container.innerHTML = '<p class="empty-state">No activities yet across any course.</p>';
+            container.innerHTML = '<p class="empty-state">No hay actividades en los cursos disponibles.</p>';
         }
 
     } catch (err) {
-        container.innerHTML = '<p class="error-msg">Error loading activities.</p>';
+        container.innerHTML = '<p class="error-msg">Error cargando las actividades.</p>';
     }
 }
