@@ -131,6 +131,7 @@ form {
     background-color: var(--color-input-bg);
     color: #9292924D;
     font-weight: 100;
+    margin-bottom: var(--space-lg);
 }
 
 .input:focus {
@@ -178,7 +179,7 @@ button {
     background: transparent;
     border: 1px solid var(--color-text-muted);
     color: var(--color-text-muted);
-    padding: var(--space-sm) var(--space-lg);
+    padding: var(--space-md) var(--space-xl);
     border-radius: var(--radius-sm);
     font-size: 14px;
     margin-top: 0;

@@ -15,14 +15,14 @@
     <aside class="sidebar">
         <div class="sidebar-logo">PyStudio</div>
         <nav class="sidebar-nav">
-            <a class="sidebar-link" data-page="courses.html" href="courses.html">My Courses</a>
-            <a class="sidebar-link" data-page="activities.html" href="activities.html">Activities</a>
+            <a class="sidebar-link" data-page="courses.html" href="courses.html">Mis Cursos</a>
+            <a class="sidebar-link" data-page="activities.html" href="activities.html">Actividades</a>
         </nav>
         <div class="sidebar-user">
             <span id="sidebar-user-name" class="sidebar-user-name"></span>
             <span id="sidebar-user-role" class="sidebar-user-role"></span>
             <div class="sidebar-actions">
-                <button class="btn-outline" id="logout-btn">Logout</button>
+                <button class="btn-outline" id="logout-btn">Cerrar Sesion</button>
             </div>
         </div>
     </aside>
@@ -30,28 +30,28 @@
     <!-- Main content -->
     <main class="main-content">
 
-        <p class="page-greeting">Welcome back</p>
+        <p class="page-greeting">Bienvenido de nuevo</p>
 
         <!-- Section header -->
         <div class="page-header">
-            <h2 class="section-title">Courses</h2>
-            <button class="btn-primary" id="new-course-btn">+ New Course</button>
+            <h2 class="section-title">Cursos</h2>
+            <button class="btn-primary" id="new-course-btn">+ Nuevo Curso</button>
         </div>
 
         <!-- Create course form (hidden by default) -->
         <div id="create-course-form" class="create-form" style="display: none;">
             <div class="input-component">
-                <p>Course name</p>
+                <p>Nombre del curso</p>
                 <input class="input" id="course-name" type="text" placeholder="e.g. Software Design">
             </div>
             <div class="input-component">
-                <p>Description</p>
+                <p>Descripción</p>
                 <input class="input" id="course-description" type="text" placeholder="Optional description">
             </div>
             <p id="create-error" class="error-msg" style="display: none;"></p>
             <div class="form-actions">
-                <button class="btn-outline" id="cancel-course-btn">Cancel</button>
-                <button class="btn-primary" id="create-course-submit">Create Course</button>
+                <button class="btn-outline" id="cancel-course-btn">Cancelar</button>
+                <button class="btn-primary" id="create-course-submit">Crear Curso</button>
             </div>
         </div>
 
