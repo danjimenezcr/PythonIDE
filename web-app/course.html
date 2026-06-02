@@ -22,7 +22,7 @@
             <span id="sidebar-user-name" class="sidebar-user-name"></span>
             <span id="sidebar-user-role" class="sidebar-user-role"></span>
             <div class="sidebar-actions">
-                <button class="btn-outline" id="logout-btn">Logout</button>
+                <button class="btn-outline" id="logout-btn">Cerrar Sesion</button>
             </div>
         </div>
     </aside>
@@ -60,15 +60,15 @@
             <!-- Right: meta panel (teacher, access code) -->
             <div class="course-meta-panel">
                 <div>
-                    <label>Teacher</label>
+                    <label>Profesor</label>
                     <span id="course-teacher" class="course-meta-value">—</span>
                 </div>
                 <div>
-                    <label>Access Code</label>
+                    <label>Código de Acceso</label>
                     <span id="course-access-code" class="course-meta-value access-code">—</span>
                 </div>
                 <div>
-                    <label>Students enrolled</label>
+                    <label>Estudiantes inscritos</label>
                     <span id="course-members" class="course-meta-value">—</span>
                 </div>
             </div>
@@ -77,28 +77,28 @@
         <!-- Activities section -->
         <div class="activities-section">
             <div class="activities-header">
-                <h3 class="section-title" style="font-size: 20px;">Activities</h3>
-                <button class="btn-primary" id="add-activity-btn" style="display: none;">+ New Activity</button>
+                <h3 class="section-title" style="font-size: 20px;">Actividades</h3>
+                <button class="btn-primary" id="add-activity-btn" style="display: none;">+ Nueva Actividad</button>
             </div>
 
             <!-- Add activity inline form (teachers only, hidden by default) -->
             <div id="add-activity-form" class="add-assignment-form" style="display: none;">
                 <div class="input-component">
-                    <p>Title</p>
+                    <p>Titulo</p>
                     <input class="input" id="activity-title" type="text" placeholder="e.g. Assignment 1">
                 </div>
                 <div class="input-component">
-                    <p>Description</p>
+                    <p>Descripción</p>
                     <input class="input" id="activity-description" type="text" placeholder="Optional description">
                 </div>
                 <div class="input-component">
-                    <p>Deadline</p>
+                    <p>Fecha Limite</p>
                     <input class="input" id="activity-deadline" type="datetime-local">
                 </div>
                 <p id="activity-error" class="error-msg" style="display: none;"></p>
                 <div class="form-actions">
-                    <button class="btn-outline" id="cancel-activity-btn">Cancel</button>
-                    <button class="btn-primary" id="submit-activity-btn">Create Activity</button>
+                    <button class="btn-outline" id="cancel-activity-btn">Cancelar</button>
+                    <button class="btn-primary" id="submit-activity-btn">Crear Actividad</button>
                 </div>
             </div>
 

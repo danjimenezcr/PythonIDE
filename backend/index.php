@@ -74,6 +74,9 @@ if ($uri === '/api/auth/register' && $method === 'POST') {
 } elseif ($uri === '/api/courses/enroll' && $method === 'POST') {
     (new CourseController())->enrollStudent();
 
+} elseif (preg_match('#^/api/courses/(\d+)$#', $uri, $m) && $method === 'GET') {
+    (new CourseController())->getCourse((int) $m[1]);
+
 } elseif (preg_match('#^/api/courses/(\d+)$#', $uri, $m) && $method === 'PUT') {
     (new CourseController())->updateCourse((int) $m[1]);
 

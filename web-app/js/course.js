@@ -26,25 +26,23 @@ loadActivities();
 
 async function loadCourse() {
     try {
-        const res  = await fetch(`${API}/courses`, {
+        const res  = await fetch(`${API}/courses/${courseId}`, {
             headers: { 'Authorization': `Bearer ${_token}` },
         });
         const data = await res.json();
 
-        if (!data.success) return;
-
-        const course = data.data.find(c => c.id === courseId);
-        if (!course) {
-            document.getElementById('course-title').textContent = 'Course not found';
+        if (!data.success) {
+            document.getElementById('course-title').textContent = data.message || 'Course not found';
             return;
         }
 
-        document.title                                              = `${course.name} — PyStudio`;
-        document.getElementById('course-title').textContent        = course.name;
-        document.getElementById('course-name').value               = course.name;
-        document.getElementById('course-description').value        = course.description || '';
-        document.getElementById('course-access-code').textContent  = course.access_code;
-        document.getElementById('course-teacher').textContent      = course.teacher_name || '—';
+        const course = data.data;
+
+        document.title                                             = `${course.name} — PyStudio`;
+        document.getElementById('course-title').textContent       = course.name;
+        document.getElementById('course-name').value              = course.name;
+        document.getElementById('course-description').value       = course.description || '';
+        document.getElementById('course-access-code').textContent = course.access_code;
 
     } catch (err) {
         document.getElementById('course-title').textContent = 'Error loading course';

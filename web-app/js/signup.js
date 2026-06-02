@@ -23,6 +23,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
     errorMsg.style.display = 'none';
     btn.disabled           = true;
     btn.textContent        = 'Registrando...';
+    
 
     try {
         const res = await fetch(`${API}/auth/register`, {
@@ -32,7 +33,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
                 full_name: `${firstName} ${lastName}`,
                 email,
                 password,
-                role: 'teacher', // Web registration is for teachers only
+                role: 'Profesor', // Web registration is for teachers only
             }),
         });
 
