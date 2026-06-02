@@ -373,14 +373,127 @@ button {
     width: 70%;
 }
 
-/* ── 9. Dashboard Layout ────────────────────────────────────────────────────── */
-.courses-page {
-    background: var(--color-bg);
+/* ── 9. App Shell (Sidebar Layout) ─────────────────────────────────────────── */
+.app-shell {
+    display: flex;
     min-height: 100vh;
+    background: var(--color-bg);
+}
+
+/* Left sidebar */
+.sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-xl) 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.sidebar-logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text);
+    padding: 0 var(--space-xl) var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-lg);
+}
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: 0 var(--space-md);
+}
+
+.sidebar-link {
+    display: block;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    text-align: left;
+    width: 100%;
     font-family: var(--font);
+}
+
+.sidebar-link:hover {
+    background: var(--color-surface-hover);
     color: var(--color-text);
 }
 
+.sidebar-link.active {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+/* Bottom user section of sidebar */
+.sidebar-user {
+    padding: var(--space-lg) var(--space-xl);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.sidebar-user-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.sidebar-user-role {
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+.sidebar-actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-xs);
+}
+
+/* Main content area beside sidebar */
+.main-content {
+    flex: 1;
+    padding: var(--space-2xl);
+    overflow-y: auto;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.page-greeting {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xs);
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--color-text);
+    font-family: var(--font);
+    line-height: normal;
+}
+
+/* Legacy top-bar kept for compatibility */
 .top-bar {
     display: flex;
     justify-content: space-between;
@@ -417,14 +530,6 @@ button {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-}
-
-.section-title {
-    font-size: 28px;
-    font-weight: 500;
-    color: var(--color-text);
-    font-family: var(--font);
-    line-height: normal;
 }
 
 /* ── 10. Courses Grid & Cards ───────────────────────────────────────────────── */
@@ -519,7 +624,7 @@ button {
 .form-actions {
     display: flex;
     flex-direction: row;
-    gap: var(--space-sm);
+    gap: var(--space-lg);
     align-items: center;
     margin-top: var(--space-xs);
 }
@@ -574,7 +679,219 @@ button {
     font-family: var(--font);
 }
 
-/* ── 13. Responsive ─────────────────────────────────────────────────────────── */
+/* ── 13. Course Detail Page ─────────────────────────────────────────────────── */
+.course-detail-header {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: var(--space-2xl);
+    margin-bottom: var(--space-2xl);
+}
+
+.course-meta-panel {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.course-meta-panel label {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--space-xs);
+    display: block;
+}
+
+.course-meta-value {
+    font-size: 14px;
+    color: var(--color-text);
+}
+
+/* Activity row with edit/delete inline */
+.activity-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.activity-row:hover {
+    border-color: var(--color-accent);
+}
+
+.activity-row-info {
+    flex: 1;
+}
+
+.activity-row-info h4 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
+    margin: 0 0 4px;
+}
+
+.activity-row-actions {
+    display: flex;
+    gap: var(--space-sm);
+    flex-shrink: 0;
+}
+
+.btn-icon {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: border-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.btn-icon:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
+.btn-icon.danger:hover {
+    border-color: var(--color-error);
+    color: var(--color-error);
+}
+
+/* ── 14. Activity Detail Page ────────────────────────────────────────────────── */
+.activity-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-2xl);
+}
+
+.activity-title-input {
+    font-size: 24px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-family: var(--font);
+    padding: var(--space-xs) 0;
+    width: 60%;
+}
+
+.activity-title-input:focus {
+    outline: none;
+    border-bottom-color: var(--color-accent);
+}
+
+.activity-title-input:read-only {
+    border-bottom-color: transparent;
+    cursor: default;
+}
+
+/* Uploaded files table */
+.files-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--space-md);
+}
+
+.files-table th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.files-table td {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 14px;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* ── 15. Activities List Page ────────────────────────────────────────────────── */
+.activities-group {
+    margin-bottom: var(--space-2xl);
+}
+
+.activities-group-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: var(--space-md);
+}
+
+.activity-list-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    margin-bottom: var(--space-sm);
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s;
+}
+
+.activity-list-row:hover {
+    border-color: var(--color-accent);
+}
+
+.activity-list-row h4 {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .app-shell {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: var(--space-md);
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .course-detail-header {
+        grid-template-columns: 1fr;
+    }
+
+    .activity-title-input {
+        width: 100%;
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;

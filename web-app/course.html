@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course — PyStudio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">PyStudio</div>
+        <nav class="sidebar-nav">
+            <a class="sidebar-link" data-page="courses.html" href="courses.html">My Courses</a>
+            <a class="sidebar-link" data-page="activities.html" href="activities.html">Activities</a>
+        </nav>
+        <div class="sidebar-user">
+            <span id="sidebar-user-name" class="sidebar-user-name"></span>
+            <span id="sidebar-user-role" class="sidebar-user-role"></span>
+            <div class="sidebar-actions">
+                <button class="btn-outline" id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+
+        <!-- Back link -->
+        <p class="page-greeting"><a href="courses.html" class="link">← Courses</a></p>
+
+        <!-- Page header: course name + save button (teachers only) -->
+        <div class="page-header" style="margin-top: var(--space-md);">
+            <h2 id="course-title" class="section-title">Loading...</h2>
+            <div id="teacher-actions" style="display: none; gap: var(--space-sm); display: none;">
+                <button class="btn-primary" id="save-course-btn">Save</button>
+            </div>
+        </div>
+
+        <!-- Course detail: left = fields, right = meta panel -->
+        <div class="course-detail-header">
+
+            <!-- Left: editable course fields -->
+            <div style="display: flex; flex-direction: column; gap: var(--space-lg);">
+                <div class="input-component">
+                    <p>Course name</p>
+                    <input class="input" id="course-name" type="text" placeholder="Course name" readonly>
+                </div>
+                <div class="input-component">
+                    <p>Description</p>
+                    <input class="input" id="course-description" type="text" placeholder="No description" readonly>
+                </div>
+                <p id="course-error" class="error-msg" style="display: none;"></p>
+            </div>
+
+            <!-- Right: meta panel (teacher, access code) -->
+            <div class="course-meta-panel">
+                <div>
+                    <label>Teacher</label>
+                    <span id="course-teacher" class="course-meta-value">—</span>
+                </div>
+                <div>
+                    <label>Access Code</label>
+                    <span id="course-access-code" class="course-meta-value access-code">—</span>
+                </div>
+                <div>
+                    <label>Students enrolled</label>
+                    <span id="course-members" class="course-meta-value">—</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activities section -->
+        <div class="activities-section">
+            <div class="activities-header">
+                <h3 class="section-title" style="font-size: 20px;">Activities</h3>
+                <button class="btn-primary" id="add-activity-btn" style="display: none;">+ New Activity</button>
+            </div>
+
+            <!-- Add activity inline form (teachers only, hidden by default) -->
+            <div id="add-activity-form" class="add-assignment-form" style="display: none;">
+                <div class="input-component">
+                    <p>Title</p>
+                    <input class="input" id="activity-title" type="text" placeholder="e.g. Assignment 1">
+                </div>
+                <div class="input-component">
+                    <p>Description</p>
+                    <input class="input" id="activity-description" type="text" placeholder="Optional description">
+                </div>
+                <div class="input-component">
+                    <p>Deadline</p>
+                    <input class="input" id="activity-deadline" type="datetime-local">
+                </div>
+                <p id="activity-error" class="error-msg" style="display: none;"></p>
+                <div class="form-actions">
+                    <button class="btn-outline" id="cancel-activity-btn">Cancel</button>
+                    <button class="btn-primary" id="submit-activity-btn">Create Activity</button>
+                </div>
+            </div>
+
+            <!-- Activity list -->
+            <div id="activities-list" class="activities-list"></div>
+        </div>
+
+    </main>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/course.js"></script>
+</body>
+</html>

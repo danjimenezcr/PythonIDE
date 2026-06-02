@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity — PyStudio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">PyStudio</div>
+        <nav class="sidebar-nav">
+            <a class="sidebar-link" data-page="courses.html" href="courses.html">My Courses</a>
+            <a class="sidebar-link" data-page="activities.html" href="activities.html">Activities</a>
+        </nav>
+        <div class="sidebar-user">
+            <span id="sidebar-user-name" class="sidebar-user-name"></span>
+            <span id="sidebar-user-role" class="sidebar-user-role"></span>
+            <div class="sidebar-actions">
+                <button class="btn-outline" id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+
+        <!-- Back link (populated by JS once course is known) -->
+        <p class="page-greeting"><a id="back-link" href="activities.html" class="link">← Activities</a></p>
+
+        <!-- Activity header: inline title input + action buttons -->
+        <div class="activity-detail-header">
+            <input
+                id="activity-title"
+                class="activity-title-input"
+                type="text"
+                placeholder="Activity title"
+                readonly
+            >
+            <!-- Teacher actions: save + delete -->
+            <div id="teacher-actions" style="display: none; gap: var(--space-sm);">
+                <button class="btn-icon danger" id="delete-activity-btn" title="Delete activity">✕</button>
+                <button class="btn-primary" id="save-activity-btn">Save</button>
+            </div>
+        </div>
+
+        <p id="activity-error" class="error-msg" style="display: none; margin-bottom: var(--space-lg);"></p>
+
+        <!-- Due date + description -->
+        <div style="display: flex; flex-direction: column; gap: var(--space-lg); max-width: 600px;">
+            <div class="input-component">
+                <p>Due date</p>
+                <input class="input" id="activity-deadline" type="datetime-local" readonly>
+            </div>
+            <div class="input-component">
+                <p>Description</p>
+                <input class="input" id="activity-description" type="text" placeholder="No description" readonly>
+            </div>
+        </div>
+
+        <!-- Uploaded files (students only) -->
+        <div id="student-section" style="display: none; margin-top: var(--space-2xl);">
+            <div class="activities-header">
+                <h3 class="section-title" style="font-size: 18px;">Uploaded files</h3>
+                <button class="btn-primary" id="upload-btn">+ Upload</button>
+            </div>
+            <table class="files-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Weight</th>
+                    </tr>
+                </thead>
+                <tbody id="files-body">
+                    <tr><td colspan="2" class="empty-state">No files uploaded yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/activity.js"></script>
+</body>
+</html>
