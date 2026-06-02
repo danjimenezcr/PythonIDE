@@ -33,7 +33,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
                 full_name: `${firstName} ${lastName}`,
                 email,
                 password,
-                role: 'Profesor', // Web registration is for teachers only
+                role: 'teacher', // Web registration is for teachers only
             }),
         });
 
