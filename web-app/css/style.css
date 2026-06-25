@@ -826,6 +826,25 @@ button {
     border-bottom: 1px solid var(--color-border);
 }
 
+/* Signature status badge (RF-19) */
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-valid {
+    background: rgba(70, 121, 179, 0.15);
+    color: var(--color-accent);
+}
+
+.badge-invalid {
+    background: rgba(224, 82, 82, 0.15);
+    color: var(--color-error);
+}
+
 /* ── 15. Activities List Page ────────────────────────────────────────────────── */
 .activities-group {
     margin-bottom: var(--space-2xl);

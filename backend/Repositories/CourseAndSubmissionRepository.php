@@ -139,7 +139,7 @@ class SubmissionRepository extends BaseRepository
         return $model;
     }
 
-    // Todas las entregas de una actividad 
+    // Todas las entregas de una actividad
     public function findByActivity(int $activityId): array
     {
         $stmt = $this->pdo->prepare(
@@ -147,6 +147,37 @@ class SubmissionRepository extends BaseRepository
         );
         $stmt->execute([':aid' => $activityId]);
         return array_map([$this, 'hydrate'], $stmt->fetchAll());
+    }
+
+    // Entregas de una actividad con nombre de estudiante/grupo (RF-10)
+    public function findByActivityWithSubmitterInfo(int $activityId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT s.*, u.full_name AS student_name, sg.name AS group_name
+              FROM submission s
+              LEFT JOIN user u ON u.id = s.student_id
+              LEFT JOIN student_group sg ON sg.id = s.group_id
+             WHERE s.activity_id = :aid
+             ORDER BY s.submitted_at DESC
+        ");
+        $stmt->execute([':aid' => $activityId]);
+        return $stmt->fetchAll();
+    }
+
+    // Entrega individual con nombre de estudiante/grupo (RF-10)
+    public function findByIdWithSubmitterInfo(int $id): ?array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT s.*, u.full_name AS student_name, sg.name AS group_name
+              FROM submission s
+              LEFT JOIN user u ON u.id = s.student_id
+              LEFT JOIN student_group sg ON sg.id = s.group_id
+             WHERE s.id = :id
+             LIMIT 1
+        ");
+        $stmt->execute([':id' => $id]);
+        $row = $stmt->fetch();
+        return $row ?: null;
     }
 
     public function findByIdAsModel(int $id): ?Submission

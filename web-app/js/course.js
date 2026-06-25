@@ -21,6 +21,8 @@ if (isTeacher) {
 
 loadCourse();
 loadActivities();
+loadMembers();
+loadGroups();
 
 // ─── Load course detail ──────────────────────────────────────────────────────
 
@@ -49,6 +51,72 @@ async function loadCourse() {
     }
 }
 
+// ─── Load members (RF-13) ────────────────────────────────────────────────────
+
+async function loadMembers() {
+    const countEl = document.getElementById('course-members');
+    const listEl  = document.getElementById('members-list');
+
+    try {
+        const res  = await fetch(`${API}/courses/${courseId}/members`, {
+            headers: { 'Authorization': `Bearer ${_token}` },
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+            if (countEl) countEl.textContent = '—';
+            return;
+        }
+
+        const members = data.data;
+        if (countEl) countEl.textContent = members.length;
+
+        // Member list table is teacher-only
+        if (!listEl) return;
+
+        listEl.innerHTML = '';
+        if (members.length === 0) {
+            listEl.innerHTML = '<tr><td colspan="3" class="empty-state">No students enrolled yet.</td></tr>';
+            return;
+        }
+
+        members.forEach(member => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${member.full_name}</td>
+                <td>${member.email}</td>
+                <td><button class="btn-icon danger" data-remove="${member.id}" title="Remove">✕</button></td>
+            `;
+            row.querySelector('[data-remove]').addEventListener('click', async () => {
+                if (!confirm(`Remove ${member.full_name} from this course?`)) return;
+                await removeMember(member.id);
+            });
+            listEl.appendChild(row);
+        });
+
+    } catch (err) {
+        if (countEl) countEl.textContent = '—';
+    }
+}
+
+async function removeMember(studentId) {
+    try {
+        const res  = await fetch(`${API}/courses/${courseId}/members/${studentId}`, {
+            method:  'DELETE',
+            headers: { 'Authorization': `Bearer ${_token}` },
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            loadMembers();
+        } else {
+            alert(data.message || 'Error removing student.');
+        }
+    } catch (err) {
+        alert('Connection error.');
+    }
+}
+
 // ─── Load activities ─────────────────────────────────────────────────────────
 
 async function loadActivities() {
@@ -71,7 +139,7 @@ async function loadActivities() {
             row.className = 'activity-row';
             row.innerHTML = `
                 <div class="activity-row-info">
-                    <h4>${activity.title}</h4>
+                    <h4>${activity.title} <span class="badge badge-valid">${activity.submission_count} submission${activity.submission_count == 1 ? '' : 's'}</span></h4>
                     <span class="deadline">Due: ${new Date(activity.deadline).toLocaleDateString('en-US', { dateStyle: 'medium' })}</span>
                 </div>
                 <div class="activity-row-actions">
@@ -108,6 +176,81 @@ async function loadActivities() {
     } catch (err) {
         document.getElementById('activities-list').innerHTML =
             '<p class="error-msg">Error loading activities.</p>';
+    }
+}
+
+// ─── Load groups (RF-11) ─────────────────────────────────────────────────────
+// Groups are created/joined by students from the desktop client; the web app
+// only shows the resulting groups and lets the teacher rename one.
+
+async function loadGroups() {
+    const container = document.getElementById('groups-list');
+
+    try {
+        const res  = await fetch(`${API}/courses/${courseId}/groups`, {
+            headers: { 'Authorization': `Bearer ${_token}` },
+        });
+        const data = await res.json();
+
+        container.innerHTML = '';
+
+        if (!data.success) {
+            container.innerHTML = `<p class="empty-state">${data.message || 'Error loading groups.'}</p>`;
+            return;
+        }
+
+        if (data.data.length === 0) {
+            container.innerHTML = '<p class="empty-state">No groups formed yet.</p>';
+            return;
+        }
+
+        data.data.forEach(group => {
+            const memberNames = group.members.length
+                ? group.members.map(m => m.full_name).join(', ')
+                : 'No members yet';
+
+            const row = document.createElement('div');
+            row.className = 'activity-row';
+            row.innerHTML = `
+                <div class="activity-row-info">
+                    <h4 data-group-name>${group.name}</h4>
+                    <span class="deadline">Invite code: ${group.invite_code} — ${memberNames}</span>
+                </div>
+                <div class="activity-row-actions">
+                    <button class="btn-icon" data-rename="${group.id}" title="Rename">✎</button>
+                </div>
+            `;
+            row.querySelector('[data-rename]').addEventListener('click', () => renameGroup(group));
+            container.appendChild(row);
+        });
+
+    } catch (err) {
+        container.innerHTML = '<p class="empty-state">Error loading groups.</p>';
+    }
+}
+
+async function renameGroup(group) {
+    const newName = prompt('New group name:', group.name);
+    if (!newName || !newName.trim() || newName.trim() === group.name) return;
+
+    try {
+        const res  = await fetch(`${API}/groups/${group.id}`, {
+            method:  'PUT',
+            headers: {
+                'Content-Type':  'application/json',
+                'Authorization': `Bearer ${_token}`,
+            },
+            body: JSON.stringify({ name: newName.trim() }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            loadGroups();
+        } else {
+            alert(data.message || 'Error renaming group.');
+        }
+    } catch (err) {
+        alert('Connection error.');
     }
 }
 

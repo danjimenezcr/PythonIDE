@@ -104,14 +104,13 @@ class SubmissionController extends BaseController
     {
         $this->requireTeacher();
 
-        $submissions = $this->submissionRepo->findByActivity($activityId);
+        $submissions = $this->submissionRepo->findByActivityWithSubmitterInfo($activityId);
 
-        $result = array_map(function ($sub) {
-            $data  = $sub->toArray();
+        $result = array_map(function ($data) {
             $stmt  = $this->getPdo()->prepare(
                 "SELECT id, file_name, file_path, digital_signature FROM submission_file WHERE submission_id = :sid"
             );
-            $stmt->execute([':sid' => $sub->getId()]);
+            $stmt->execute([':sid' => $data['id']]);
             $data['files'] = $stmt->fetchAll();
             return $data;
         }, $submissions);
@@ -126,8 +125,8 @@ class SubmissionController extends BaseController
     {
         $this->requireTeacher();
 
-        $submission = $this->submissionRepo->findByIdAsModel($submissionId);
-        if (!$submission) {
+        $data = $this->submissionRepo->findByIdWithSubmitterInfo($submissionId);
+        if (!$data) {
             $this->error('Entrega no encontrada', 404);
         }
 
@@ -136,9 +135,8 @@ class SubmissionController extends BaseController
         $signatureController->verifySubmission($submissionId);
 
         // Recargar con estado actualizado
-        $submission = $this->submissionRepo->findByIdAsModel($submissionId);
+        $data = $this->submissionRepo->findByIdWithSubmitterInfo($submissionId);
 
-        $data  = $submission->toArray();
         $stmt  = $this->getPdo()->prepare(
             "SELECT id, file_name, file_path, digital_signature FROM submission_file WHERE submission_id = :sid"
         );
