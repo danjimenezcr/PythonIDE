@@ -96,7 +96,10 @@ if ($uri === '/api/auth/register' && $method === 'POST') {
 } elseif (preg_match('#^/api/courses/(\d+)/groups$#', $uri, $m) && $method === 'GET') {
     (new GroupController())->getGroupsByCourse((int) $m[1]);
 
-} elseif ($uri === '/api/groups' && $method === 'POST') {
+} elseif (preg_match('#^/api/courses/(\d+)/groupslist$#', $uri, $m) && $method === 'GET') {
+    (new GroupController())->getGroupsForCourse((int) $m[1]);
+
+}elseif ($uri === '/api/groups' && $method === 'POST') {
     (new GroupController())->createGroup();
 
 } elseif ($uri === '/api/groups/join' && $method === 'POST') {

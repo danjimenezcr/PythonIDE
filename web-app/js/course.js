@@ -188,7 +188,7 @@ async function loadGroups() {
     const container = document.getElementById('groups-list');
 
     try {
-        const res  = await fetch(`${API}/courses/${courseId}/groups`, {
+        const res  = await fetch(`${API}/courses/${courseId}/groupslist`, {
             headers: { 'Authorization': `Bearer ${_token}` },
         });
         const data = await res.json();
