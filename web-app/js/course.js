@@ -196,7 +196,7 @@ async function loadGroups() {
         container.innerHTML = '';
 
         if (!data.success) {
-            container.innerHTML = `<p class="empty-state">${data.message || 'Error al cargar los grupos.'}</p>`;
+            container.innerHTML = `<p class="empty-state">${data.message || 'Error al cargar los grupos depues de la autorizacion.'}</p>`;
             return;
         }
 
@@ -226,7 +226,7 @@ async function loadGroups() {
         });
 
     } catch (err) {
-        container.innerHTML = '<p class="empty-state">Error al cargar los grupos.</p>';
+        container.innerHTML = '<p class="empty-state">Error al cargar los grupos desde auth.</p>';
     }
 }
 
