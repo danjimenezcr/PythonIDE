@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submissions — PyStudio</title>
+    <title>Entregas — PyStudio</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -15,14 +15,14 @@
     <aside class="sidebar">
         <div class="sidebar-logo">PyStudio</div>
         <nav class="sidebar-nav">
-            <a class="sidebar-link" data-page="courses.html" href="courses.html">My Courses</a>
-            <a class="sidebar-link" data-page="activities.html" href="activities.html">Activities</a>
+            <a class="sidebar-link" data-page="courses.html" href="courses.html">Mis Cursos</a>
+            <a class="sidebar-link" data-page="activities.html" href="activities.html">Actividades</a>
         </nav>
         <div class="sidebar-user">
             <span id="sidebar-user-name" class="sidebar-user-name"></span>
             <span id="sidebar-user-role" class="sidebar-user-role"></span>
             <div class="sidebar-actions">
-                <button class="btn-outline" id="logout-btn">Logout</button>
+                <button class="btn-outline" id="logout-btn">Cerrar sesión</button>
             </div>
         </div>
     </aside>
@@ -31,10 +31,10 @@
     <main class="main-content">
 
         <!-- Back link (populated by JS once activity is known) -->
-        <p class="page-greeting"><a id="back-link" href="activities.html" class="link">← Back to activity</a></p>
+        <p class="page-greeting"><a id="back-link" href="activities.html" class="link">← Volver a la actividad</a></p>
 
         <div class="page-header" style="margin-top: var(--space-md);">
-            <h2 id="activity-title" class="section-title">Loading...</h2>
+            <h2 id="activity-title" class="section-title">Cargando...</h2>
         </div>
 
         <p id="submissions-error" class="error-msg" style="display: none;"></p>
@@ -42,14 +42,14 @@
         <table class="files-table">
             <thead>
                 <tr>
-                    <th>Submitted by</th>
-                    <th>Files</th>
-                    <th>Submitted at</th>
-                    <th>Signature</th>
+                    <th>Entregado por</th>
+                    <th>Archivos</th>
+                    <th>Fecha de entrega</th>
+                    <th>Firma</th>
                 </tr>
             </thead>
             <tbody id="submissions-list">
-                <tr><td colspan="4" class="empty-state">Loading...</td></tr>
+                <tr><td colspan="4" class="empty-state">Cargando...</td></tr>
             </tbody>
         </table>
 

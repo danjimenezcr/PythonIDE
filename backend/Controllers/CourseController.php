@@ -70,12 +70,12 @@ class CourseController extends BaseController
     {
         $this->requireAuth();
 
-        $course = $this->courseRepo->findByIdAsModel($courseId);
+        $course = $this->courseRepo->findByIdWithTeacherName($courseId);
         if (!$course) {
             $this->error('Curso no encontrado', 404);
         }
 
-        $this->success($course->toArray());
+        $this->success($course);
     }
 
     // POST /api/courses/enroll (RF-04)

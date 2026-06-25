@@ -19,8 +19,8 @@ async function loadActivityTitle() {
         const data = await res.json();
 
         if (data.success) {
-            document.title = `Submissions — ${data.data.title} — PyStudio`;
-            document.getElementById('activity-title').textContent = `Submissions: ${data.data.title}`;
+            document.title = `Entregas — ${data.data.title} — PyStudio`;
+            document.getElementById('activity-title').textContent = `Entregas: ${data.data.title}`;
             document.getElementById('back-link').href = `activity.html?id=${activityId}`;
         }
     } catch (err) {
@@ -39,7 +39,7 @@ async function loadSubmissions() {
         const data = await res.json();
 
         if (!data.success) {
-            errorEl.textContent   = data.message || 'Error loading submissions.';
+            errorEl.textContent   = data.message || 'Error al cargar las entregas.';
             errorEl.style.display = 'block';
             list.innerHTML        = '';
             return;
@@ -48,35 +48,35 @@ async function loadSubmissions() {
         list.innerHTML = '';
 
         if (data.data.length === 0) {
-            list.innerHTML = '<tr><td colspan="4" class="empty-state">No submissions yet.</td></tr>';
+            list.innerHTML = '<tr><td colspan="4" class="empty-state">Aún no hay entregas.</td></tr>';
             return;
         }
 
         data.data.forEach(sub => renderRow(list, sub));
 
     } catch (err) {
-        errorEl.textContent   = 'Connection error.';
+        errorEl.textContent   = 'Error de conexión.';
         errorEl.style.display = 'block';
     }
 }
 
 function renderRow(list, sub) {
     const submitterName = sub.is_group_submission
-        ? `Group: ${sub.group_name || '—'}`
+        ? `Grupo: ${sub.group_name || '—'}`
         : (sub.student_name || '—');
 
     const filesHtml = (sub.files || []).map(f =>
         `<a class="link" href="../backend/${f.file_path}" target="_blank">${f.file_name}</a>`
-    ).join('<br>') || '<span class="empty-state">No files</span>';
+    ).join('<br>') || '<span class="empty-state">Sin archivos</span>';
 
-    const submittedAt = new Date(sub.submitted_at).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+    const submittedAt = new Date(sub.submitted_at).toLocaleString('es-ES', { dateStyle: 'medium', timeStyle: 'short' });
 
     const row = document.createElement('tr');
     row.innerHTML = `
         <td>${submitterName}</td>
         <td>${filesHtml}</td>
         <td>${submittedAt}</td>
-        <td><span class="badge" data-signature-badge>Checking...</span></td>
+        <td><span class="badge" data-signature-badge>Verificando...</span></td>
     `;
     list.appendChild(row);
 
@@ -92,15 +92,15 @@ async function verifySignature(submissionId, badgeEl) {
         const data = await res.json();
 
         if (!data.success) {
-            badgeEl.textContent = 'Unknown';
+            badgeEl.textContent = 'Desconocido';
             return;
         }
 
         const valid = !!data.data.signature_valid;
-        badgeEl.textContent = valid ? 'Valid' : 'Tampered';
+        badgeEl.textContent = valid ? 'Válida' : 'Alterada';
         badgeEl.className   = `badge ${valid ? 'badge-valid' : 'badge-invalid'}`;
 
     } catch (err) {
-        badgeEl.textContent = 'Unknown';
+        badgeEl.textContent = 'Desconocido';
     }
 }

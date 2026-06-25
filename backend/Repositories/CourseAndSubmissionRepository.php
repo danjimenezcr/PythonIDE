@@ -84,6 +84,21 @@ class CourseRepository extends BaseRepository
         return $row ? $this->hydrate($row) : null;
     }
 
+    // Curso con el nombre del profesor incluido (para la vista de detalle)
+    public function findByIdWithTeacherName(int $id): ?array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT c.*, u.full_name AS teacher_name
+              FROM course c
+              JOIN user u ON u.id = c.teacher_id
+             WHERE c.id = :id
+             LIMIT 1
+        ");
+        $stmt->execute([':id' => $id]);
+        $row = $stmt->fetch();
+        return $row ?: null;
+    }
+
     private function hydrate(array $row): Course
     {
         return new Course(

@@ -14,7 +14,7 @@ async function loadAllActivities() {
         const coursesData = await coursesRes.json();
 
         if (!coursesData.success || coursesData.data.length === 0) {
-            container.innerHTML = '<p class="empty-state">No courses found.</p>';
+            container.innerHTML = '<p class="empty-state">No se encontraron cursos.</p>';
             return;
         }
 
@@ -39,8 +39,8 @@ async function loadAllActivities() {
                 row.className = 'activity-list-row';
                 row.href      = `activity.html?id=${activity.id}`;
                 row.innerHTML = `
-                    <h4>${activity.title} <span class="badge badge-valid">${activity.submission_count} submission${activity.submission_count == 1 ? '' : 's'}</span></h4>
-                    <span class="deadline">Due: ${new Date(activity.deadline).toLocaleDateString('en-US', { dateStyle: 'medium' })}</span>
+                    <h4>${activity.title} <span class="badge badge-valid">${activity.submission_count} entrega${activity.submission_count == 1 ? '' : 's'}</span></h4>
+                    <span class="deadline">Vence: ${new Date(activity.deadline).toLocaleDateString('es-ES', { dateStyle: 'medium' })}</span>
                 `;
                 group.appendChild(row);
             });
@@ -49,10 +49,10 @@ async function loadAllActivities() {
         }
 
         if (container.children.length === 0) {
-            container.innerHTML = '<p class="empty-state">No activities yet across any course.</p>';
+            container.innerHTML = '<p class="empty-state">Aún no hay actividades en ningún curso.</p>';
         }
 
     } catch (err) {
-        container.innerHTML = '<p class="error-msg">Error loading activities.</p>';
+        container.innerHTML = '<p class="error-msg">Error al cargar las actividades.</p>';
     }
 }
