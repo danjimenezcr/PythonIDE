@@ -58,7 +58,7 @@ async function loadActivity() {
         }
 
     } catch (err) {
-        document.getElementById('activity-error').textContent   = 'Error cargando la actividad.';
+        document.getElementById('activity-error').textContent   = 'Error al cargar la actividad.';
         document.getElementById('activity-error').style.display = 'block';
     }
 }
@@ -109,11 +109,17 @@ document.getElementById('save-activity-btn')?.addEventListener('click', async fu
     }
 });
 
+// ─── View submissions (teachers only) ────────────────────────────────────────
+
+document.getElementById('view-submissions-btn')?.addEventListener('click', function () {
+    window.location.href = `submissions.html?activityId=${activityId}`;
+});
+
 // ─── Delete activity (teachers only) ─────────────────────────────────────────
 
 document.getElementById('delete-activity-btn')?.addEventListener('click', async function () {
-    const title = document.getElementById('activity-title').value || 'this activity';
-    if (!confirm(`Delete "${title}"?`)) return;
+    const title = document.getElementById('activity-title').value || 'esta actividad';
+    if (!confirm(`¿Eliminar "${title}"?`)) return;
 
     try {
         const res  = await fetch(`${API}/activities/${activityId}`, {
@@ -126,7 +132,7 @@ document.getElementById('delete-activity-btn')?.addEventListener('click', async 
             window.location.href = 'activities.html';
         }
     } catch (err) {
-        document.getElementById('activity-error').textContent   = 'Error eliminando la actividad.';
+        document.getElementById('activity-error').textContent   = 'Error al eliminar la actividad.';
         document.getElementById('activity-error').style.display = 'block';
     }
 });
@@ -135,5 +141,5 @@ document.getElementById('delete-activity-btn')?.addEventListener('click', async 
 
 document.getElementById('upload-btn')?.addEventListener('click', function () {
     // File upload is not yet implemented in the backend.
-    alert('Subida de archivos disponible pronto.');
+    alert('La subida de archivos estará disponible próximamente.');
 });

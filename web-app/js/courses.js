@@ -14,7 +14,7 @@ async function loadCourses() {
         list.innerHTML = '';
 
         if (!data.success || data.data.length === 0) {
-            list.innerHTML = '<p class="empty-state">No courses yet. Create one to get started.</p>';
+            list.innerHTML = '<p class="empty-state">Aún no hay cursos. Crea uno para empezar.</p>';
             return;
         }
 
@@ -23,8 +23,8 @@ async function loadCourses() {
             card.className = 'course-card';
             card.innerHTML = `
                 <h3>${course.name}</h3>
-                <p>${course.description || 'No description'}</p>
-                <span class="access-code">Code: ${course.access_code}</span>
+                <p>${course.description || 'Sin descripción'}</p>
+                <span class="access-code">Código: ${course.access_code}</span>
             `;
             // Navigate to the course detail page
             card.addEventListener('click', () => {
@@ -35,7 +35,7 @@ async function loadCourses() {
 
     } catch (err) {
         document.getElementById('courses-list').innerHTML =
-            '<p class="error-msg">Error loading courses.</p>';
+            '<p class="error-msg">Error al cargar los cursos.</p>';
     }
 }
 
@@ -56,14 +56,14 @@ document.getElementById('create-course-submit').addEventListener('click', async 
     const btn         = document.getElementById('create-course-submit');
 
     if (!name) {
-        errorMsg.textContent   = 'Course name is required.';
+        errorMsg.textContent   = 'El nombre del curso es obligatorio.';
         errorMsg.style.display = 'block';
         return;
     }
 
     errorMsg.style.display = 'none';
     btn.disabled            = true;
-    btn.textContent         = 'Creating...';
+    btn.textContent         = 'Creando...';
 
     try {
         const res  = await fetch(`${API}/courses`, {
@@ -80,7 +80,7 @@ document.getElementById('create-course-submit').addEventListener('click', async 
             errorMsg.textContent   = data.message;
             errorMsg.style.display = 'block';
             btn.disabled           = false;
-            btn.textContent        = 'Create Course';
+            btn.textContent        = 'Crear Curso';
             return;
         }
 
@@ -89,13 +89,13 @@ document.getElementById('create-course-submit').addEventListener('click', async 
         document.getElementById('course-description').value = '';
         document.getElementById('create-course-form').style.display = 'none';
         btn.disabled    = false;
-        btn.textContent = 'Create Course';
+        btn.textContent = 'Crear Curso';
         loadCourses();
 
     } catch (err) {
-        errorMsg.textContent   = 'Connection error. Please try again.';
+        errorMsg.textContent   = 'Error de conexión. Intenta de nuevo.';
         errorMsg.style.display = 'block';
         btn.disabled           = false;
-        btn.textContent        = 'Create Course';
+        btn.textContent        = 'Crear Curso';
     }
 });

@@ -69,9 +69,16 @@ class ActivityController extends BaseController
     {
         $this->requireAuth();
 
-        $stmt = $this->getPdo()->prepare(
-            "SELECT * FROM activity WHERE course_id = :cid ORDER BY deadline ASC"
-        );
+        // LEFT JOIN + COUNT so the teacher can see how many submissions each
+        // activity has without an extra request per activity (RF-06)
+        $stmt = $this->getPdo()->prepare("
+            SELECT a.*, COUNT(s.id) AS submission_count
+              FROM activity a
+              LEFT JOIN submission s ON s.activity_id = a.id
+             WHERE a.course_id = :cid
+             GROUP BY a.id
+             ORDER BY a.deadline ASC
+        ");
         $stmt->execute([':cid' => $courseId]);
 
         $this->success($stmt->fetchAll());

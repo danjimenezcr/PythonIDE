@@ -21,6 +21,8 @@ if (isTeacher) {
 
 loadCourse();
 loadActivities();
+loadMembers();
+loadGroups();
 
 // ─── Load course detail ──────────────────────────────────────────────────────
 
@@ -32,7 +34,7 @@ async function loadCourse() {
         const data = await res.json();
 
         if (!data.success) {
-            document.getElementById('course-title').textContent = data.message || 'Course not found';
+            document.getElementById('course-title').textContent = data.message || 'Curso no encontrado';
             return;
         }
 
@@ -43,9 +45,76 @@ async function loadCourse() {
         document.getElementById('course-name').value              = course.name;
         document.getElementById('course-description').value       = course.description || '';
         document.getElementById('course-access-code').textContent = course.access_code;
+        document.getElementById('course-teacher').textContent     = course.teacher_name || '—';
 
     } catch (err) {
-        document.getElementById('course-title').textContent = 'Error loading course';
+        document.getElementById('course-title').textContent = 'Error al cargar el curso';
+    }
+}
+
+// ─── Load members (RF-13) ────────────────────────────────────────────────────
+
+async function loadMembers() {
+    const countEl = document.getElementById('course-members');
+    const listEl  = document.getElementById('members-list');
+
+    try {
+        const res  = await fetch(`${API}/courses/${courseId}/members`, {
+            headers: { 'Authorization': `Bearer ${_token}` },
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+            if (countEl) countEl.textContent = '—';
+            return;
+        }
+
+        const members = data.data;
+        if (countEl) countEl.textContent = members.length;
+
+        // Member list table is teacher-only
+        if (!listEl) return;
+
+        listEl.innerHTML = '';
+        if (members.length === 0) {
+            listEl.innerHTML = '<tr><td colspan="3" class="empty-state">Aún no hay estudiantes inscritos.</td></tr>';
+            return;
+        }
+
+        members.forEach(member => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${member.full_name}</td>
+                <td>${member.email}</td>
+                <td><button class="btn-icon danger" data-remove="${member.id}" title="Remover">✕</button></td>
+            `;
+            row.querySelector('[data-remove]').addEventListener('click', async () => {
+                if (!confirm(`¿Remover a ${member.full_name} de este curso?`)) return;
+                await removeMember(member.id);
+            });
+            listEl.appendChild(row);
+        });
+
+    } catch (err) {
+        if (countEl) countEl.textContent = '—';
+    }
+}
+
+async function removeMember(studentId) {
+    try {
+        const res  = await fetch(`${API}/courses/${courseId}/members/${studentId}`, {
+            method:  'DELETE',
+            headers: { 'Authorization': `Bearer ${_token}` },
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            loadMembers();
+        } else {
+            alert(data.message || 'Error al remover al estudiante.');
+        }
+    } catch (err) {
+        alert('Error de conexión.');
     }
 }
 
@@ -62,7 +131,7 @@ async function loadActivities() {
         list.innerHTML = '';
 
         if (!data.success || data.data.length === 0) {
-            list.innerHTML = '<p class="empty-state">No activities yet.</p>';
+            list.innerHTML = '<p class="empty-state">Aún no hay actividades.</p>';
             return;
         }
 
@@ -71,14 +140,14 @@ async function loadActivities() {
             row.className = 'activity-row';
             row.innerHTML = `
                 <div class="activity-row-info">
-                    <h4>${activity.title}</h4>
-                    <span class="deadline">Due: ${new Date(activity.deadline).toLocaleDateString('en-US', { dateStyle: 'medium' })}</span>
+                    <h4>${activity.title} <span class="badge badge-valid">${activity.submission_count} entrega${activity.submission_count == 1 ? '' : 's'}</span></h4>
+                    <span class="deadline">Vence: ${new Date(activity.deadline).toLocaleDateString('es-ES', { dateStyle: 'medium' })}</span>
                 </div>
                 <div class="activity-row-actions">
                     ${isTeacher ? `
-                        <button class="btn-icon danger" data-delete="${activity.id}" title="Delete">✕</button>
+                        <button class="btn-icon danger" data-delete="${activity.id}" title="Eliminar">✕</button>
                     ` : ''}
-                    <button class="btn-icon" data-goto="${activity.id}" title="Open">→</button>
+                    <button class="btn-icon" data-goto="${activity.id}" title="Abrir">→</button>
                 </div>
             `;
 
@@ -97,7 +166,7 @@ async function loadActivities() {
             if (isTeacher) {
                 row.querySelector('[data-delete]').addEventListener('click', async (e) => {
                     e.stopPropagation();
-                    if (!confirm(`Delete "${activity.title}"?`)) return;
+                    if (!confirm(`¿Eliminar "${activity.title}"?`)) return;
                     await deleteActivity(activity.id);
                 });
             }
@@ -107,7 +176,82 @@ async function loadActivities() {
 
     } catch (err) {
         document.getElementById('activities-list').innerHTML =
-            '<p class="error-msg">Error loading activities.</p>';
+            '<p class="error-msg">Error al cargar las actividades.</p>';
+    }
+}
+
+// ─── Load groups (RF-11) ─────────────────────────────────────────────────────
+// Groups are created/joined by students from the desktop client; the web app
+// only shows the resulting groups and lets the teacher rename one.
+
+async function loadGroups() {
+    const container = document.getElementById('groups-list');
+
+    try {
+        const res  = await fetch(`${API}/courses/${courseId}/groups`, {
+            headers: { 'Authorization': `Bearer ${_token}` },
+        });
+        const data = await res.json();
+
+        container.innerHTML = '';
+
+        if (!data.success) {
+            container.innerHTML = `<p class="empty-state">${data.message || 'Error al cargar los grupos.'}</p>`;
+            return;
+        }
+
+        if (data.data.length === 0) {
+            container.innerHTML = '<p class="empty-state">Aún no se han formado grupos.</p>';
+            return;
+        }
+
+        data.data.forEach(group => {
+            const memberNames = group.members.length
+                ? group.members.map(m => m.full_name).join(', ')
+                : 'Sin miembros aún';
+
+            const row = document.createElement('div');
+            row.className = 'activity-row';
+            row.innerHTML = `
+                <div class="activity-row-info">
+                    <h4 data-group-name>${group.name}</h4>
+                    <span class="deadline">Código de invitación: ${group.invite_code} — ${memberNames}</span>
+                </div>
+                <div class="activity-row-actions">
+                    <button class="btn-icon" data-rename="${group.id}" title="Renombrar">✎</button>
+                </div>
+            `;
+            row.querySelector('[data-rename]').addEventListener('click', () => renameGroup(group));
+            container.appendChild(row);
+        });
+
+    } catch (err) {
+        container.innerHTML = '<p class="empty-state">Error al cargar los grupos.</p>';
+    }
+}
+
+async function renameGroup(group) {
+    const newName = prompt('Nuevo nombre del grupo:', group.name);
+    if (!newName || !newName.trim() || newName.trim() === group.name) return;
+
+    try {
+        const res  = await fetch(`${API}/groups/${group.id}`, {
+            method:  'PUT',
+            headers: {
+                'Content-Type':  'application/json',
+                'Authorization': `Bearer ${_token}`,
+            },
+            body: JSON.stringify({ name: newName.trim() }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            loadGroups();
+        } else {
+            alert(data.message || 'Error al renombrar el grupo.');
+        }
+    } catch (err) {
+        alert('Error de conexión.');
     }
 }
 
@@ -120,14 +264,14 @@ document.getElementById('save-course-btn')?.addEventListener('click', async func
     const btn         = this;
 
     if (!name) {
-        errorMsg.textContent   = 'Course name is required.';
+        errorMsg.textContent   = 'El nombre del curso es obligatorio.';
         errorMsg.style.display = 'block';
         return;
     }
 
     errorMsg.style.display = 'none';
     btn.disabled            = true;
-    btn.textContent         = 'Saving...';
+    btn.textContent         = 'Guardando...';
 
     try {
         const res  = await fetch(`${API}/courses/${courseId}`, {
@@ -148,11 +292,11 @@ document.getElementById('save-course-btn')?.addEventListener('click', async func
         }
 
     } catch (err) {
-        errorMsg.textContent   = 'Connection error.';
+        errorMsg.textContent   = 'Error de conexión.';
         errorMsg.style.display = 'block';
     } finally {
         btn.disabled    = false;
-        btn.textContent = 'Save';
+        btn.textContent = 'Guardar';
     }
 });
 
@@ -175,20 +319,20 @@ document.getElementById('submit-activity-btn')?.addEventListener('click', async 
     const btn         = this;
 
     if (!title) {
-        errorMsg.textContent   = 'Title is required.';
+        errorMsg.textContent   = 'El título es obligatorio.';
         errorMsg.style.display = 'block';
         return;
     }
 
     if (!deadline) {
-        errorMsg.textContent   = 'Deadline is required.';
+        errorMsg.textContent   = 'La fecha límite es obligatoria.';
         errorMsg.style.display = 'block';
         return;
     }
 
     errorMsg.style.display = 'none';
     btn.disabled            = true;
-    btn.textContent         = 'Creating...';
+    btn.textContent         = 'Creando...';
 
     try {
         const res  = await fetch(`${API}/activities`, {
@@ -202,7 +346,7 @@ document.getElementById('submit-activity-btn')?.addEventListener('click', async 
         const data = await res.json();
 
         if (!data.success) {
-            errorMsg.textContent   = data.message || 'Error creating activity.';
+            errorMsg.textContent   = data.message || 'Error al crear la actividad.';
             errorMsg.style.display = 'block';
         } else {
             document.getElementById('activity-title').value       = '';
@@ -213,11 +357,11 @@ document.getElementById('submit-activity-btn')?.addEventListener('click', async 
         }
 
     } catch (err) {
-        errorMsg.textContent   = 'Connection error.';
+        errorMsg.textContent   = 'Error de conexión.';
         errorMsg.style.display = 'block';
     } finally {
         btn.disabled    = false;
-        btn.textContent = 'Create Activity';
+        btn.textContent = 'Crear Actividad';
     }
 });
 
@@ -235,6 +379,6 @@ async function deleteActivity(activityId) {
             loadActivities();
         }
     } catch (err) {
-        alert('Error deleting activity.');
+        alert('Error al eliminar la actividad.');
     }
 }

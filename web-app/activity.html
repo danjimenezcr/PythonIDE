@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activity — PyStudio</title>
+    <title>Actividad — PyStudio</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -15,14 +15,14 @@
     <aside class="sidebar">
         <div class="sidebar-logo">PyStudio</div>
         <nav class="sidebar-nav">
-            <a class="sidebar-link" data-page="courses.html" href="courses.html">My Courses</a>
-            <a class="sidebar-link" data-page="activities.html" href="activities.html">Activities</a>
+            <a class="sidebar-link" data-page="courses.html" href="courses.html">Mis Cursos</a>
+            <a class="sidebar-link" data-page="activities.html" href="activities.html">Actividades</a>
         </nav>
         <div class="sidebar-user">
             <span id="sidebar-user-name" class="sidebar-user-name"></span>
             <span id="sidebar-user-role" class="sidebar-user-role"></span>
             <div class="sidebar-actions">
-                <button class="btn-outline" id="logout-btn">Logout</button>
+                <button class="btn-outline" id="logout-btn">Cerrar sesión</button>
             </div>
         </div>
     </aside>
@@ -39,12 +39,13 @@
                 id="activity-title"
                 class="activity-title-input"
                 type="text"
-                placeholder="Activity title"
+                placeholder="Título de la actividad"
                 readonly
             >
             <!-- Teacher actions: save + delete -->
             <div id="teacher-actions" style="display: none; gap: var(--space-sm);">
-                <button class="btn-outline" id="delete-activity-btn">Borrar</button>
+                <button class="btn-outline" id="view-submissions-btn">Ver Entregas</button>
+                <button class="btn-icon danger" id="delete-activity-btn" title="Eliminar actividad">✕</button>
                 <button class="btn-primary" id="save-activity-btn">Guardar</button>
             </div>
         </div>
@@ -54,19 +55,19 @@
         <!-- Due date + description -->
         <div style="display: flex; flex-direction: column; gap: var(--space-lg); max-width: 600px;">
             <div class="input-component">
-                <p>Fecha Limite</p>
+                <p>Fecha de entrega</p>
                 <input class="input" id="activity-deadline" type="datetime-local" readonly>
             </div>
             <div class="input-component">
                 <p>Descripción</p>
-                <input class="input" id="activity-description" type="text" placeholder="No description" readonly>
+                <input class="input" id="activity-description" type="text" placeholder="Sin descripción" readonly>
             </div>
         </div>
 
         <!-- Uploaded files (students only) -->
         <div id="student-section" style="display: none; margin-top: var(--space-2xl);">
             <div class="activities-header">
-                <h3 class="section-title" style="font-size: 18px;">Archivos Subidos</h3>
+                <h3 class="section-title" style="font-size: 18px;">Archivos subidos</h3>
                 <button class="btn-primary" id="upload-btn">+ Subir</button>
             </div>
             <table class="files-table">
@@ -77,7 +78,7 @@
                     </tr>
                 </thead>
                 <tbody id="files-body">
-                    <tr><td colspan="2" class="empty-state">No hay archivos subidos aún.</td></tr>
+                    <tr><td colspan="2" class="empty-state">Aún no se han subido archivos.</td></tr>
                 </tbody>
             </table>
         </div>

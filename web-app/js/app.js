@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nameEl = document.getElementById('sidebar-user-name');
     const roleEl = document.getElementById('sidebar-user-role');
     if (nameEl) nameEl.textContent = _user.full_name;
-    if (roleEl) roleEl.textContent = _user.role === 'teacher' ? 'Teacher' : 'Student';
+    if (roleEl) roleEl.textContent = _user.role === 'teacher' ? 'Profesor' : 'Estudiante';
 
     // Highlight the nav link that matches the current page
     const current = window.location.pathname.split('/').pop();
