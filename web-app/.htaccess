@@ -1,0 +1,4 @@
+# Ensure correct MIME types (Safari refuses CSS/JS served without them)
+AddType text/css .css
+AddType application/javascript .js
+AddType text/html .html

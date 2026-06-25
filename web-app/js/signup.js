@@ -23,6 +23,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
     errorMsg.style.display = 'none';
     btn.disabled           = true;
     btn.textContent        = 'Registrando...';
+    
 
     try {
         const res = await fetch(`${API}/auth/register`, {
