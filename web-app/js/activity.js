@@ -33,7 +33,7 @@ async function loadActivity() {
         const data = await res.json();
 
         if (!data.success) {
-            document.getElementById('activity-title').value = 'Activity not found';
+            document.getElementById('activity-title').value = 'Actividad no encontrada';
             return;
         }
 
@@ -54,11 +54,11 @@ async function loadActivity() {
         // Update back link to go to the course this activity belongs to
         if (activity.course_id) {
             document.getElementById('back-link').href = `course.html?id=${activity.course_id}`;
-            document.getElementById('back-link').textContent = '← Course';
+            document.getElementById('back-link').textContent = '← Curso';
         }
 
     } catch (err) {
-        document.getElementById('activity-error').textContent   = 'Error loading activity.';
+        document.getElementById('activity-error').textContent   = 'Error cargando la actividad.';
         document.getElementById('activity-error').style.display = 'block';
     }
 }
@@ -73,14 +73,14 @@ document.getElementById('save-activity-btn')?.addEventListener('click', async fu
     const btn         = this;
 
     if (!title) {
-        errorMsg.textContent   = 'Title is required.';
+        errorMsg.textContent   = 'El título es obligatorio.';
         errorMsg.style.display = 'block';
         return;
     }
 
     errorMsg.style.display = 'none';
     btn.disabled            = true;
-    btn.textContent         = 'Saving...';
+    btn.textContent         = 'Guardando...';
 
     try {
         const res  = await fetch(`${API}/activities/${activityId}`, {
@@ -101,11 +101,11 @@ document.getElementById('save-activity-btn')?.addEventListener('click', async fu
         }
 
     } catch (err) {
-        errorMsg.textContent   = 'Connection error.';
+        errorMsg.textContent   = 'Error de conexión.';
         errorMsg.style.display = 'block';
     } finally {
         btn.disabled    = false;
-        btn.textContent = 'Save';
+        btn.textContent = 'Guardar';
     }
 });
 
@@ -132,7 +132,7 @@ document.getElementById('delete-activity-btn')?.addEventListener('click', async 
             window.location.href = 'activities.html';
         }
     } catch (err) {
-        document.getElementById('activity-error').textContent   = 'Error deleting activity.';
+        document.getElementById('activity-error').textContent   = 'Error eliminando la actividad.';
         document.getElementById('activity-error').style.display = 'block';
     }
 });
@@ -141,5 +141,5 @@ document.getElementById('delete-activity-btn')?.addEventListener('click', async 
 
 document.getElementById('upload-btn')?.addEventListener('click', function () {
     // File upload is not yet implemented in the backend.
-    alert('File upload coming soon.');
+    alert('Subida de archivos disponible pronto.');
 });

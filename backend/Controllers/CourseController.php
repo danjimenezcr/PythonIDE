@@ -50,6 +50,19 @@ class CourseController extends BaseController
         $this->success($saved->toArray(), 201);
     }
 
+    // GET /api/courses/{id}
+    public function getCourse(int $courseId): void
+    {
+        $this->requireAuth();
+
+        $course = $this->courseRepo->findByIdAsModel($courseId);
+        if (!$course) {
+            $this->error('Curso no encontrado', 404);
+        }
+
+        $this->success($course->toArray());
+    }
+
     // GET /api/courses (RF-03, RF-04)
     // Devuelve cursos según el rol del usuario autenticado
     public function getCourses(): void
