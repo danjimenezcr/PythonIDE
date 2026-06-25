@@ -90,6 +90,28 @@ public sealed class ApiClient
         });
     }
 
+public async Task<GroupDto> CreateGroupAsync(int courseId, string name)
+{
+    return await RequestAsync<GroupDto>(HttpMethod.Post, "/groups", new
+    {
+        course_id = courseId,
+        name
+    });
+}
+
+public async Task<GroupDto> JoinGroupAsync(string inviteCode)
+{
+    return await RequestAsync<GroupDto>(HttpMethod.Post, "/groups/join", new
+    {
+        invite_code = inviteCode
+    });
+}
+
+public async Task<List<GroupDto>> GetGroupsAsync(int courseId)
+{
+    return await RequestAsync<List<GroupDto>>(HttpMethod.Get, $"/courses/{courseId}/groups");
+}
+
     private async Task<T> RequestAsync<T>(HttpMethod method, string endpoint, object? body = null)
     {
         using var request = new HttpRequestMessage(method, BaseUrl + endpoint);

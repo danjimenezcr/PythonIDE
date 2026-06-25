@@ -14,6 +14,8 @@ public sealed class MainForm : Form, IStatusObserver
 
     private readonly Dictionary<ListViewItem, CourseDto> _courseByItem = [];
     private readonly Dictionary<ListViewItem, ActivityDto> _activityByItem = [];
+    private readonly Dictionary<ListViewItem, GroupDto> _groupByItem = [];
+    private ListView _groupsView = null!;
 
     private TextBox _apiUrlBox = null!;
     private TextBox _emailBox = null!;
@@ -129,6 +131,9 @@ public sealed class MainForm : Form, IStatusObserver
         AddButton(sidebar, "Iniciar sesión", LoginAsync);
         AddButton(sidebar, "Unirme a curso", EnrollCourseAsync);
         AddButton(sidebar, "Cargar cursos/tareas", LoadCoursesAsync);
+        AddSectionLabel(sidebar, "Grupos");
+        AddButton(sidebar, "Crear grupo", CreateGroupAsync);
+        AddButton(sidebar, "Unirme a grupo", JoinGroupAsync);
 
         return sidebar;
     }
@@ -206,16 +211,21 @@ public sealed class MainForm : Form, IStatusObserver
         var panel = new TableLayoutPanel
         {
             Dock = DockStyle.Fill,
-            RowCount = 5,
+            RowCount = 7,
             Padding = new Padding(8, 0, 0, 0)
         };
         panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 22));
-        panel.RowStyles.Add(new RowStyle(SizeType.Percent, 45));
+        panel.RowStyles.Add(new RowStyle(SizeType.Percent, 35));
         panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 22));
-        panel.RowStyles.Add(new RowStyle(SizeType.Percent, 55));
+        panel.RowStyles.Add(new RowStyle(SizeType.Percent, 35));
+        panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 22));
+        panel.RowStyles.Add(new RowStyle(SizeType.Percent, 30));
         panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 36));
 
+        // Fila 0 - Label Cursos
         panel.Controls.Add(new Label { Text = "Cursos inscritos", Dock = DockStyle.Fill, Font = new Font(Font, FontStyle.Bold) }, 0, 0);
+
+        // Fila 1 - Lista de cursos
         _coursesView = new ListView
         {
             Dock = DockStyle.Fill,
@@ -228,7 +238,10 @@ public sealed class MainForm : Form, IStatusObserver
         _coursesView.SelectedIndexChanged += (_, _) => OnCourseSelectedAsync();
         panel.Controls.Add(_coursesView, 0, 1);
 
+        // Fila 2 - Label Tareas
         panel.Controls.Add(new Label { Text = "Tareas del curso", Dock = DockStyle.Fill, Font = new Font(Font, FontStyle.Bold) }, 0, 2);
+
+        // Fila 3 - Lista de actividades
         _activitiesView = new ListView
         {
             Dock = DockStyle.Fill,
@@ -241,9 +254,27 @@ public sealed class MainForm : Form, IStatusObserver
         _activitiesView.Columns.Add("Fecha límite", 120);
         panel.Controls.Add(_activitiesView, 0, 3);
 
+        // Fila 4 - Label Grupos
+        panel.Controls.Add(new Label { Text = "Grupos del curso", Dock = DockStyle.Fill, Font = new Font(Font, FontStyle.Bold) }, 0, 4);
+
+        // Fila 5 - Lista de grupos
+        _groupsView = new ListView
+        {
+            Dock = DockStyle.Fill,
+            View = View.Details,
+            FullRowSelect = true,
+            MultiSelect = false
+        };
+        _groupsView.Columns.Add("ID", 50);
+        _groupsView.Columns.Add("Grupo", 120);
+        _groupsView.Columns.Add("Código", 90);
+        _groupsView.Columns.Add("Miembros", 60);
+        panel.Controls.Add(_groupsView, 0, 5);
+
+        // Fila 6 - Botón enviar entrega
         var submit = new Button { Text = "Enviar script como entrega", Dock = DockStyle.Fill };
         submit.Click += async (_, _) => await SafeAsync(SubmitCurrentScriptAsync);
-        panel.Controls.Add(submit, 0, 4);
+        panel.Controls.Add(submit, 0, 6);
 
         return panel;
     }
@@ -519,6 +550,7 @@ public sealed class MainForm : Form, IStatusObserver
         var item = _coursesView.SelectedItems[0];
         if (!_courseByItem.TryGetValue(item, out var course)) return;
         await SafeAsync(() => LoadActivitiesAsync(course.Id));
+        await SafeAsync(() => LoadGroupsAsync(course.Id));
     }
 
     private async Task LoadActivitiesAsync(int courseId)
@@ -658,5 +690,63 @@ public sealed class MainForm : Form, IStatusObserver
         {
             UseWaitCursor = false;
         }
+    }
+    private async Task CreateGroupAsync()
+    {
+        var course = SelectedCourse();
+        if (course is null)
+        {
+            MessageBox.Show(this, "Primero seleccione un curso.", "Seleccione un curso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+        string? name = InputDialog.Show("Crear grupo", "Nombre del grupo:", owner: this);
+        if (string.IsNullOrWhiteSpace(name)) return;
+
+        ConfigureApi();
+        var group = await _api.CreateGroupAsync(course.Id, name.Trim());
+        _statusSubject.Notify($"Grupo creado: {group.Name}. Código de invitación: {group.InviteCode}");
+        MessageBox.Show(this, $"Grupo creado exitosamente.\nCódigo de invitación: {group.InviteCode}", "Grupo creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        await LoadGroupsAsync(course.Id);
+    }
+
+    private async Task JoinGroupAsync()
+    {
+        string? code = InputDialog.Show("Unirse a grupo", "Código de invitación:", owner: this);
+        if (string.IsNullOrWhiteSpace(code)) return;
+
+        ConfigureApi();
+        var group = await _api.JoinGroupAsync(code.Trim());
+        _statusSubject.Notify($"Te uniste al grupo: {group.GroupName ?? group.Message}");
+        
+        var course = SelectedCourse();
+        if (course is not null) await LoadGroupsAsync(course.Id);
+    }
+
+    private async Task LoadGroupsAsync(int courseId)
+    {
+        ConfigureApi();
+        var groups = await _api.GetGroupsAsync(courseId);
+        _groupsView.Items.Clear();
+        _groupByItem.Clear();
+
+        foreach (var group in groups)
+        {
+            var item = new ListViewItem(group.Id.ToString());
+            item.SubItems.Add(group.Name ?? "Sin nombre");
+            item.SubItems.Add(group.InviteCode ?? "");
+            item.SubItems.Add(group.MemberCount.ToString());
+            _groupsView.Items.Add(item);
+            _groupByItem[item] = group;
+        }
+
+        _statusSubject.Notify($"Grupos cargados: {groups.Count}");
+    }
+
+    private CourseDto? SelectedCourse()
+    {
+        if (_coursesView.SelectedItems.Count == 0) return null;
+        var item = _coursesView.SelectedItems[0];
+        return _courseByItem.TryGetValue(item, out var course) ? course : null;
     }
 }

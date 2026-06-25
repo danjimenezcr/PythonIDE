@@ -82,3 +82,26 @@ public sealed class SubmissionData
     [JsonPropertyName("submitted_at")]
     public string? SubmittedAt { get; set; }
 }
+public sealed class GroupDto
+{
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
+
+    [JsonPropertyName("course_id")]
+    public int CourseId { get; set; }
+
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
+
+    [JsonPropertyName("invite_code")]
+    public string? InviteCode { get; set; }
+
+    [JsonPropertyName("member_count")]
+    public int MemberCount { get; set; }
+
+    [JsonPropertyName("group_name")]
+    public string? GroupName { get; set; }
+
+    [JsonPropertyName("message")]
+    public string? Message { get; set; }
+}
