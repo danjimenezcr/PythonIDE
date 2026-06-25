@@ -65,6 +65,19 @@ class CourseController extends BaseController
         $this->success(array_map(fn($c) => $c->toArray(), $courses));
     }
 
+    // GET /api/courses/{id}
+    public function getCourse(int $courseId): void
+    {
+        $this->requireAuth();
+
+        $course = $this->courseRepo->findByIdAsModel($courseId);
+        if (!$course) {
+            $this->error('Curso no encontrado', 404);
+        }
+
+        $this->success($course->toArray());
+    }
+
     // POST /api/courses/enroll (RF-04)
     // Body: { "access_code" }
     public function enrollStudent(): void

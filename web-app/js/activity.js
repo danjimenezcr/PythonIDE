@@ -109,6 +109,12 @@ document.getElementById('save-activity-btn')?.addEventListener('click', async fu
     }
 });
 
+// ─── View submissions (teachers only) ────────────────────────────────────────
+
+document.getElementById('view-submissions-btn')?.addEventListener('click', function () {
+    window.location.href = `submissions.html?activityId=${activityId}`;
+});
+
 // ─── Delete activity (teachers only) ─────────────────────────────────────────
 
 document.getElementById('delete-activity-btn')?.addEventListener('click', async function () {

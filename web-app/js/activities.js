@@ -39,7 +39,7 @@ async function loadAllActivities() {
                 row.className = 'activity-list-row';
                 row.href      = `activity.html?id=${activity.id}`;
                 row.innerHTML = `
-                    <h4>${activity.title}</h4>
+                    <h4>${activity.title} <span class="badge badge-valid">${activity.submission_count} submission${activity.submission_count == 1 ? '' : 's'}</span></h4>
                     <span class="deadline">Due: ${new Date(activity.deadline).toLocaleDateString('en-US', { dateStyle: 'medium' })}</span>
                 `;
                 group.appendChild(row);

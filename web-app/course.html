@@ -74,6 +74,25 @@
             </div>
         </div>
 
+        <!-- Members section -->
+        <div class="activities-section">
+            <div class="activities-header">
+                <h3 class="section-title" style="font-size: 20px;">Students</h3>
+            </div>
+            <table class="files-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="members-list">
+                    <tr><td colspan="3" class="empty-state">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
         <!-- Activities section -->
         <div class="activities-section">
             <div class="activities-header">
@@ -104,6 +123,14 @@
 
             <!-- Activity list -->
             <div id="activities-list" class="activities-list"></div>
+        </div>
+
+        <!-- Groups section (read-only view; groups are created/joined from the desktop client) -->
+        <div class="activities-section">
+            <div class="activities-header">
+                <h3 class="section-title" style="font-size: 20px;">Groups</h3>
+            </div>
+            <div id="groups-list"></div>
         </div>
 
     </main>

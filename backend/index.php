@@ -13,6 +13,8 @@
  *   DELETE /api/courses/{id}
  *   GET    /api/courses/{id}/members
  *   DELETE /api/courses/{id}/members/{studentId}
+ *   GET    /api/courses/{id}/groups
+ *   PUT    /api/groups/{id}
  *   POST   /api/activities
  *   GET    /api/courses/{id}/activities
  *   GET    /api/activities/{id}
@@ -41,6 +43,7 @@ require_once __DIR__ . '/Controllers/AuthController.php';
 require_once __DIR__ . '/Controllers/CourseController.php';
 require_once __DIR__ . '/Controllers/ActivityController.php';
 require_once __DIR__ . '/Controllers/SubmissionAndSignatureController.php';
+require_once __DIR__ . '/Controllers/GroupController.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -74,6 +77,9 @@ if ($uri === '/api/auth/register' && $method === 'POST') {
 } elseif ($uri === '/api/courses/enroll' && $method === 'POST') {
     (new CourseController())->enrollStudent();
 
+} elseif (preg_match('#^/api/courses/(\d+)$#', $uri, $m) && $method === 'GET') {
+    (new CourseController())->getCourse((int) $m[1]);
+
 } elseif (preg_match('#^/api/courses/(\d+)$#', $uri, $m) && $method === 'PUT') {
     (new CourseController())->updateCourse((int) $m[1]);
 
@@ -85,6 +91,13 @@ if ($uri === '/api/auth/register' && $method === 'POST') {
 
 } elseif (preg_match('#^/api/courses/(\d+)/members/(\d+)$#', $uri, $m) && $method === 'DELETE') {
     (new CourseController())->removeMember((int) $m[1], (int) $m[2]);
+
+// GROUPS
+} elseif (preg_match('#^/api/courses/(\d+)/groups$#', $uri, $m) && $method === 'GET') {
+    (new GroupController())->getGroupsForCourse((int) $m[1]);
+
+} elseif (preg_match('#^/api/groups/(\d+)$#', $uri, $m) && $method === 'PUT') {
+    (new GroupController())->renameGroup((int) $m[1]);
 
 // ACTIVITIES
 } elseif ($uri === '/api/activities' && $method === 'POST') {
