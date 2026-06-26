@@ -6,7 +6,7 @@ namespace PyStudioDesktopSharp.Services;
 
 public sealed class SignatureService
 {
-    private const string LocalKey = "PYSTUDIO_LOCAL_SIGNATURE_KEY_2026";
+    private const string LocalKey = "PYSTUDIO_SIGNATURE_KEY_2026";
 
     public string SignFile(string scriptPath, string signaturePath)
     {

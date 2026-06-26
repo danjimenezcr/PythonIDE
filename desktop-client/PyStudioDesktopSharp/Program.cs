@@ -8,6 +8,12 @@ internal static class Program
     private static void Main()
     {
         ApplicationConfiguration.Initialize();
-        Application.Run(new MainForm());
+
+        using var loginForm = new LoginForm();
+        if (loginForm.ShowDialog() != DialogResult.OK)
+            return;
+
+        var mainForm = new MainForm(loginForm.AuthenticatedApi);
+        Application.Run(mainForm);
     }
 }

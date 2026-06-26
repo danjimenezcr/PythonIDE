@@ -8,7 +8,7 @@ namespace PyStudioDesktopSharp.UI;
 public sealed class MainForm : Form, IStatusObserver
 {
     private readonly DesktopFacade _facade = new();
-    private readonly ApiClient _api = new();
+    private readonly ApiClient _api;
     private readonly StatusSubject _statusSubject = new();
     private readonly ITerminalPrinter _terminalPrinter = new TimestampTerminalDecorator(new PlainTerminalPrinter());
 
@@ -17,9 +17,6 @@ public sealed class MainForm : Form, IStatusObserver
     private readonly Dictionary<ListViewItem, GroupDto> _groupByItem = [];
     private ListView _groupsView = null!;
 
-    private TextBox _apiUrlBox = null!;
-    private TextBox _emailBox = null!;
-    private TextBox _passwordBox = null!;
     private ListBox _scriptList = null!;
     private TextBox _lineNumbers = null!;
     private NoPasteRichTextBox _editor = null!;
@@ -28,6 +25,8 @@ public sealed class MainForm : Form, IStatusObserver
     private ListView _coursesView = null!;
     private ListView _activitiesView = null!;
     private Label _statusLabel = null!;
+    private UserDto? _currentUser;
+
 
     private bool _highlighting;
 
@@ -39,8 +38,12 @@ public sealed class MainForm : Form, IStatusObserver
         "print", "input", "range", "len", "int", "float", "str", "list", "dict", "set", "tuple"
     ];
 
-    public MainForm()
+    public MainForm(ApiClient api)
     {
+        _api = api;
+        _currentUser = api.User;
+
+        
         Text = "PyStudio Desktop - Cliente Estudiante C#";
         Width = 1280;
         Height = 820;
@@ -99,6 +102,21 @@ public sealed class MainForm : Form, IStatusObserver
         sidebar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 
         AddSectionLabel(sidebar, "PyStudio Desktop C#");
+
+        // Nombre del usuario autenticado
+        var userLabel = new Label
+        {
+            Text = _currentUser?.FullName ?? _currentUser?.Email ?? "Estudiante",
+            Dock = DockStyle.Top,
+            AutoSize = true,
+            ForeColor = Color.FromArgb(96, 165, 250),
+            Font = new Font(Font, FontStyle.Bold),
+            Padding = new Padding(0, 4, 0, 0)
+        };
+        sidebar.Controls.Add(userLabel);
+
+        AddButton(sidebar, "Cerrar sesión", Logout);
+
         AddSectionLabel(sidebar, "Proyecto local");
         AddButton(sidebar, "Crear proyecto", CreateProject);
         AddButton(sidebar, "Abrir proyecto", OpenProject);
@@ -114,23 +132,9 @@ public sealed class MainForm : Form, IStatusObserver
         _scriptList.SelectedIndexChanged += (_, _) => OnScriptSelected();
         sidebar.Controls.Add(_scriptList);
 
-        AddSectionLabel(sidebar, "Backend");
-        sidebar.Controls.Add(new Label { Text = "URL API", AutoSize = true });
-        _apiUrlBox = new TextBox { Text = "http://localhost:8000/api", Dock = DockStyle.Top };
-        sidebar.Controls.Add(_apiUrlBox);
-
-        sidebar.Controls.Add(new Label { Text = "Correo", AutoSize = true });
-        _emailBox = new TextBox { Text = "estudiante@tec.ac.cr", Dock = DockStyle.Top };
-        sidebar.Controls.Add(_emailBox);
-
-        sidebar.Controls.Add(new Label { Text = "Contraseña", AutoSize = true });
-        _passwordBox = new TextBox { Text = "12345678", PasswordChar = '*', Dock = DockStyle.Top };
-        sidebar.Controls.Add(_passwordBox);
-
-        AddButton(sidebar, "Registrar estudiante", RegisterStudentAsync);
-        AddButton(sidebar, "Iniciar sesión", LoginAsync);
         AddButton(sidebar, "Unirme a curso", EnrollCourseAsync);
         AddButton(sidebar, "Cargar cursos/tareas", LoadCoursesAsync);
+
         AddSectionLabel(sidebar, "Grupos");
         AddButton(sidebar, "Crear grupo", CreateGroupAsync);
         AddButton(sidebar, "Unirme a grupo", JoinGroupAsync);
@@ -363,8 +367,9 @@ public sealed class MainForm : Form, IStatusObserver
 
     private void ConfigureApi()
     {
-        _api.SetBaseUrl(_apiUrlBox.Text);
+        // La URL ya está configurada desde el LoginForm
     }
+
 
     private string CurrentEditorContent() => _editor.Text;
 
@@ -493,24 +498,6 @@ public sealed class MainForm : Form, IStatusObserver
     {
         PrintTerminal("--- Historial Git local ---");
         AppendTerminalRaw(_facade.GitHistory() + Environment.NewLine);
-    }
-
-    private async Task RegisterStudentAsync()
-    {
-        ConfigureApi();
-        string? fullName = InputDialog.Show("Registro", "Nombre completo:", owner: this);
-        if (string.IsNullOrWhiteSpace(fullName)) return;
-
-        var data = await _api.RegisterStudentAsync(fullName.Trim(), _emailBox.Text.Trim(), _passwordBox.Text);
-        _statusSubject.Notify($"Estudiante registrado: {data.Email ?? _emailBox.Text.Trim()}");
-    }
-
-    private async Task LoginAsync()
-    {
-        ConfigureApi();
-        var data = await _api.LoginAsync(_emailBox.Text.Trim(), _passwordBox.Text);
-        string displayName = data.User?.FullName ?? data.User?.Email ?? "usuario";
-        _statusSubject.Notify($"Sesión iniciada: {displayName}");
     }
 
     private async Task EnrollCourseAsync()
@@ -748,5 +735,12 @@ public sealed class MainForm : Form, IStatusObserver
         if (_coursesView.SelectedItems.Count == 0) return null;
         var item = _coursesView.SelectedItems[0];
         return _courseByItem.TryGetValue(item, out var course) ? course : null;
+    }
+    private void Logout()
+    {
+        var confirm = MessageBox.Show(this, "¿Seguro que deseas cerrar sesión?", "Cerrar sesión", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        if (confirm != DialogResult.Yes) return;
+
+        Application.Restart();
     }
 }

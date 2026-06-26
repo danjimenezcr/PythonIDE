@@ -94,11 +94,17 @@ if ($uri === '/api/auth/register' && $method === 'POST') {
 
 // GROUPS
 } elseif (preg_match('#^/api/courses/(\d+)/groups$#', $uri, $m) && $method === 'GET') {
-    (new GroupController())->getGroupsForCourse((int) $m[1]);
+    (new GroupController())->getGroupsByCourse((int) $m[1]);
+
+} elseif ($uri === '/api/groups' && $method === 'POST') {
+    (new GroupController())->createGroup();
+
+} elseif ($uri === '/api/groups/join' && $method === 'POST') {
+    (new GroupController())->joinGroup();
 
 } elseif (preg_match('#^/api/groups/(\d+)$#', $uri, $m) && $method === 'PUT') {
     (new GroupController())->renameGroup((int) $m[1]);
-
+    
 // ACTIVITIES
 } elseif ($uri === '/api/activities' && $method === 'POST') {
     (new ActivityController())->createActivity();
@@ -124,18 +130,6 @@ if ($uri === '/api/auth/register' && $method === 'POST') {
 
 } elseif (preg_match('#^/api/submissions/(\d+)$#', $uri, $m) && $method === 'GET') {
     (new SubmissionController())->getDetail((int) $m[1]);
-// GROUPS
-} elseif ($uri === '/api/groups' && $method === 'POST') {
-    require_once __DIR__ . '/Controllers/GroupController.php';
-    (new GroupController())->createGroup();
-
-} elseif ($uri === '/api/groups/join' && $method === 'POST') {
-    require_once __DIR__ . '/Controllers/GroupController.php';
-    (new GroupController())->joinGroup();
-
-} elseif (preg_match('#^/api/courses/(\d+)/groups$#', $uri, $m) && $method === 'GET') {
-    require_once __DIR__ . '/Controllers/GroupController.php';
-    (new GroupController())->getGroupsByCourse((int) $m[1]);
 
 // 404
 } else {
